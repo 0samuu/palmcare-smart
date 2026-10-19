@@ -1,0 +1,2463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>PalmCare — Precision Agritech OS v4.2</title>
+  
+  <!-- Preconnect & Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/static/css/styles.css"/>
+
+  <!-- Tailwind CDN & Config -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-secondary-container": "#436b58",
+            "surface-variant": "#e1e3e2",
+            "surface-container-lowest": "#ffffff",
+            "surface-dim": "#d8dada",
+            "outline-variant": "#bfc9c1",
+            "outline": "#707973",
+            "primary-container": "#2d6a4f",
+            "on-primary": "#ffffff",
+            "surface-container-low": "#f2f4f3",
+            "on-surface": "#191c1c",
+            "primary-fixed-dim": "#95d4b3",
+            "on-tertiary-container": "#ffd1ae",
+            "tertiary-fixed": "#ffdcc3",
+            "on-primary-fixed": "#002114",
+            "on-tertiary-fixed-variant": "#6e3900",
+            "tertiary-fixed-dim": "#ffb77d",
+            "on-surface-variant": "#404943",
+            "error": "#ba1a1a",
+            "on-secondary-fixed-variant": "#274e3d",
+            "error-container": "#ffdad6",
+            "inverse-primary": "#95d4b3",
+            "inverse-on-surface": "#eff1f0",
+            "primary": "#0f5238",
+            "on-error-container": "#93000a",
+            "secondary": "#3f6653",
+            "secondary-fixed-dim": "#a5d0b9",
+            "surface-container-high": "#e6e9e8",
+            "on-secondary-fixed": "#002114",
+            "on-error": "#ffffff",
+            "primary-fixed": "#b1f0ce",
+            "on-secondary": "#ffffff",
+            "surface-container-highest": "#e1e3e2",
+            "background": "#f8faf9",
+            "surface-bright": "#f8faf9",
+            "on-tertiary": "#ffffff",
+            "secondary-fixed": "#c1ecd4",
+            "surface-container": "#eceeed",
+            "surface-tint": "#2c694e",
+            "inverse-surface": "#2e3131",
+            "secondary-container": "#beead1",
+            "on-background": "#191c1c",
+            "tertiary": "#6f3a00",
+            "tertiary-container": "#914d00",
+            "on-primary-fixed-variant": "#0e5138",
+            "surface": "#f8faf9",
+            "on-primary-container": "#a8e7c5",
+            "on-tertiary-fixed": "#2f1500"
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            "2xl": "1rem",
+            full: "9999px"
+          },
+          spacing: {
+            "space-xl": "2.5rem",
+            "space-xs": "0.25rem",
+            "space-md": "1rem",
+            "gutter-desktop": "1.5rem",
+            "margin-desktop": "2rem",
+            "space-sm": "0.5rem",
+            "gutter": "1rem",
+            "margin": "1rem",
+            "space-lg": "1.5rem"
+          },
+          fontFamily: {
+            "display-lg": ["Manrope", "sans-serif"],
+            "headline-sm": ["Manrope", "sans-serif"],
+            "headline-lg": ["Manrope", "sans-serif"],
+            "headline-xl": ["Manrope", "sans-serif"],
+            "telemetry-lg": ["JetBrains Mono", "monospace"],
+            "telemetry-md": ["JetBrains Mono", "monospace"],
+            "body-lg": ["JetBrains Mono", "monospace"],
+            "body-md": ["JetBrains Mono", "monospace"],
+            "body-sm": ["JetBrains Mono", "monospace"],
+            "label-caps": ["JetBrains Mono", "monospace"]
+          },
+          fontSize: {
+            "display-lg": ["40px", { lineHeight: "48px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "headline-xl": ["28px", { lineHeight: "36px", letterSpacing: "-0.015em", fontWeight: "600" }],
+            "headline-lg": ["22px", { lineHeight: "30px", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "headline-sm": ["18px", { lineHeight: "24px", fontWeight: "600" }],
+            "telemetry-lg": ["24px", { lineHeight: "28px", letterSpacing: "-0.02em", fontWeight: "600" }],
+            "telemetry-md": ["14px", { lineHeight: "18px", fontWeight: "500" }],
+            "body-lg": ["15px", { lineHeight: "24px", fontWeight: "400" }],
+            "body-md": ["13px", { lineHeight: "20px", fontWeight: "400" }],
+            "body-sm": ["11px", { lineHeight: "16px", fontWeight: "400" }],
+            "label-caps": ["10px", { lineHeight: "14px", letterSpacing: "0.08em", fontWeight: "600" }]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary">
+
+  <!-- ============================================================ -->
+  <!-- 1. DESKTOP PERMANENT SIDEBAR (Hidden on mobile <1024px) -->
+  <!-- ============================================================ -->
+  <aside id="shell-sidebar" class="hidden lg:flex fixed left-0 top-0 h-full w-[260px] bg-primary z-50 flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.08)]">
+    <div class="flex flex-col flex-1 min-h-0">
+      <!-- Brand & Version Banner -->
+      <div class="px-space-md py-space-md bg-on-primary-fixed flex items-center justify-between">
+        <div class="flex items-center gap-space-sm cursor-pointer" data-path="dashboard-overview">
+          <div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container shadow-sm">
+            <span class="material-symbols-outlined text-[20px]">potted_plant</span>
+          </div>
+          <div>
+            <span class="font-headline-sm text-headline-sm text-on-primary font-bold tracking-tight block">PalmCare</span>
+            <span class="font-label-caps text-label-caps text-primary-fixed uppercase tracking-wider block">Precision Agritech OS</span>
+          </div>
+        </div>
+        <span class="font-label-caps text-label-caps bg-primary-container text-primary-fixed px-space-xs py-0.5 rounded font-bold">v4.2</span>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="flex-1 px-space-sm py-space-md space-y-1.5 overflow-y-auto">
+        <a class="flex items-center gap-space-sm px-space-md py-3 rounded-lg text-primary-fixed-dim hover:bg-on-primary-fixed-variant hover:text-on-primary transition-all duration-150 cursor-pointer select-none" data-path="dashboard-overview" href="#dashboard-overview">
+          <span class="material-symbols-outlined text-[18px]">space_dashboard</span>
+          <span class="font-body-md text-body-md font-medium">Dashboard Overview</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-md py-3 rounded-lg text-primary-fixed-dim hover:bg-on-primary-fixed-variant hover:text-on-primary transition-all duration-150 cursor-pointer select-none" data-path="multi-tree-digital-twin" href="#multi-tree-digital-twin">
+          <span class="material-symbols-outlined text-[18px]">forest</span>
+          <span class="font-body-md text-body-md font-medium">Multi-Tree Digital Twin</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-md py-3 rounded-lg text-primary-fixed-dim hover:bg-on-primary-fixed-variant hover:text-on-primary transition-all duration-150 cursor-pointer select-none" data-path="canopy-vision-opencv" href="#canopy-vision-opencv">
+          <span class="material-symbols-outlined text-[18px]">center_focus_strong</span>
+          <span class="font-body-md text-body-md font-medium">Canopy Vision &amp; OpenCV</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-md py-3 rounded-lg text-primary-fixed-dim hover:bg-on-primary-fixed-variant hover:text-on-primary transition-all duration-150 cursor-pointer select-none" data-path="precision-fluid-dosing" href="#precision-fluid-dosing">
+          <span class="material-symbols-outlined text-[18px]">water_drop</span>
+          <span class="font-body-md text-body-md font-medium">Precision Fluid Dosing</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-md py-3 rounded-lg text-primary-fixed-dim hover:bg-on-primary-fixed-variant hover:text-on-primary transition-all duration-150 cursor-pointer select-none" data-path="environmental-soil-telemetry" href="#environmental-soil-telemetry">
+          <span class="material-symbols-outlined text-[18px]">dew_point</span>
+          <span class="font-body-md text-body-md font-medium">Environmental &amp; Soil</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-md py-3 rounded-lg text-primary-fixed-dim hover:bg-on-primary-fixed-variant hover:text-on-primary transition-all duration-150 cursor-pointer select-none" data-path="academic-panel-defense-sandbox" href="#academic-panel-defense-sandbox">
+          <span class="material-symbols-outlined text-[18px]">science</span>
+          <span class="font-body-md text-body-md font-medium">Panel Defense Sandbox</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-md py-3 rounded-lg text-primary-fixed-dim hover:bg-on-primary-fixed-variant hover:text-on-primary transition-all duration-150 cursor-pointer select-none" data-path="edge-diagnostics" href="#edge-diagnostics">
+          <span class="material-symbols-outlined text-[18px]">electrical_services</span>
+          <span class="font-body-md text-body-md font-medium">Hardware Diagnostics</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Sidebar Bottom Telemetry Widget & Log Out -->
+    <div class="p-space-sm bg-on-primary-fixed/80 m-space-sm rounded-lg space-y-space-sm">
+      <div class="bg-on-primary-fixed p-space-sm rounded space-y-space-xs">
+        <div class="flex items-center justify-between text-primary-fixed font-label-caps text-label-caps">
+          <span>FIELD LINK TELEMETRY</span>
+          <span class="flex items-center gap-1 text-primary-fixed-dim" id="field-link-badge">
+            <span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed animate-pulse"></span>ONLINE
+          </span>
+        </div>
+        <div class="flex items-center justify-between font-telemetry-md text-body-sm text-surface-variant">
+          <span class="flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px]">battery_charging_full</span>
+            <span class="val-battery">12.6V</span> (94%)
+          </span>
+          <span class="text-primary-fixed-dim">SOLAR <span class="val-solar">17.5W</span></span>
+        </div>
+        <div class="w-full bg-primary h-1 rounded-full overflow-hidden">
+          <div class="bg-secondary-fixed h-full w-[94%]"></div>
+        </div>
+      </div>
+      <div>
+        <a class="flex items-center justify-center px-space-md py-2.5 rounded-lg text-primary-fixed-dim hover:bg-error hover:text-on-error transition-all duration-150 cursor-pointer select-none text-center font-body-md text-body-md font-semibold" data-path="login" href="#login">
+          <span class="material-symbols-outlined text-[18px] mr-1.5">logout</span>
+          <span>Switch Role / Log Out</span>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============================================================ -->
+  <!-- 2. MOBILE OFF-CANVAS SLIDE-IN DRAWER (<1024px) -->
+  <!-- ============================================================ -->
+  <div id="mobile-drawer-backdrop" class="fixed inset-0 bg-inverse-surface/60 backdrop-blur-sm z-50 hidden transition-opacity lg:hidden"></div>
+  <aside id="mobile-drawer" class="mobile-sidebar-drawer fixed left-0 top-0 bottom-0 w-[280px] bg-primary z-50 flex flex-col justify-between shadow-2xl -translate-x-full lg:hidden">
+    <div class="flex flex-col flex-1 min-h-0">
+      <div class="px-space-md py-space-md bg-on-primary-fixed flex items-center justify-between">
+        <div class="flex items-center gap-space-sm" data-path="dashboard-overview">
+          <div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container">
+            <span class="material-symbols-outlined text-[20px]">potted_plant</span>
+          </div>
+          <div>
+            <span class="font-headline-sm text-headline-sm text-on-primary font-bold tracking-tight block">PalmCare</span>
+            <span class="font-label-caps text-label-caps text-primary-fixed uppercase tracking-wider block">Precision Agritech OS</span>
+          </div>
+        </div>
+        <button id="btn-close-drawer" class="p-1 rounded text-primary-fixed hover:bg-primary" onclick="PalmCare.closeMobileDrawer()">
+          <span class="material-symbols-outlined text-[22px]">close</span>
+        </button>
+      </div>
+
+      <nav class="flex-1 px-space-sm py-space-md space-y-1.5 overflow-y-auto">
+        <a class="flex items-center gap-space-sm px-space-md py-3 rounded-lg text-primary-fixed-dim hover:bg-on-primary-fixed-variant hover:text-on-primary transition-all cursor-pointer" data-path="dashboard-overview" href="#dashboard-overview">
+          <span class="material-symbols-outlined text-[18px]">space_dashboard</span>
+          <span>Dashboard Overview</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-md py-3 rounded-lg text-primary-fixed-dim hover:bg-on-primary-fixed-variant hover:text-on-primary transition-all cursor-pointer" data-path="multi-tree-digital-twin" href="#multi-tree-digital-twin">
+          <span class="material-symbols-outlined text-[18px]">forest</span>
+          <span>Multi-Tree Digital Twin</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-md py-3 rounded-lg text-primary-fixed-dim hover:bg-on-primary-fixed-variant hover:text-on-primary transition-all cursor-pointer" data-path="canopy-vision-opencv" href="#canopy-vision-opencv">
+          <span class="material-symbols-outlined text-[18px]">center_focus_strong</span>
+          <span>Canopy Vision &amp; OpenCV</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-md py-3 rounded-lg text-primary-fixed-dim hover:bg-on-primary-fixed-variant hover:text-on-primary transition-all cursor-pointer" data-path="precision-fluid-dosing" href="#precision-fluid-dosing">
+          <span class="material-symbols-outlined text-[18px]">water_drop</span>
+          <span>Precision Fluid Dosing</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-md py-3 rounded-lg text-primary-fixed-dim hover:bg-on-primary-fixed-variant hover:text-on-primary transition-all cursor-pointer" data-path="environmental-soil-telemetry" href="#environmental-soil-telemetry">
+          <span class="material-symbols-outlined text-[18px]">dew_point</span>
+          <span>Environmental &amp; Soil</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-md py-3 rounded-lg text-primary-fixed-dim hover:bg-on-primary-fixed-variant hover:text-on-primary transition-all cursor-pointer" data-path="academic-panel-defense-sandbox" href="#academic-panel-defense-sandbox">
+          <span class="material-symbols-outlined text-[18px]">science</span>
+          <span>Panel Defense Sandbox</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-md py-3 rounded-lg text-primary-fixed-dim hover:bg-on-primary-fixed-variant hover:text-on-primary transition-all cursor-pointer" data-path="edge-diagnostics" href="#edge-diagnostics">
+          <span class="material-symbols-outlined text-[18px]">electrical_services</span>
+          <span>Hardware Diagnostics</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-md py-3 rounded-lg text-primary-fixed-dim hover:bg-error hover:text-on-error transition-all cursor-pointer" data-path="login" href="#login">
+          <span class="material-symbols-outlined text-[18px]">logout</span>
+          <span>Switch Role / Log Out</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- ============================================================ -->
+  <!-- 3. MAIN WRAPPER (Left shifted by 260px on Desktop) -->
+  <!-- ============================================================ -->
+  <div id="main-wrapper" class="lg:pl-[260px] flex flex-col min-h-screen transition-all duration-200">
+    
+    <!-- STICKY TOP HEADER -->
+    <header id="shell-header" class="fixed top-0 left-0 lg:left-[260px] right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-3 sm:px-gutter-desktop transition-all duration-200">
+      <!-- Left: Mobile Menu Toggle & Breadcrumbs -->
+      <div class="flex items-center gap-space-sm sm:gap-space-md">
+        <!-- Mobile Hamburger Button -->
+        <button id="btn-mobile-menu" class="lg:hidden p-2 rounded-lg text-on-surface hover:bg-surface-container flex items-center justify-center">
+          <span class="material-symbols-outlined text-[24px]">menu</span>
+        </button>
+
+        <!-- Location Breadcrumbs -->
+        <div class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant overflow-hidden text-ellipsis whitespace-nowrap">
+          <span class="material-symbols-outlined text-[16px] text-primary shrink-0">explore</span>
+          <span class="hidden sm:inline">Al Ain Plantation</span>
+          <span class="text-outline-variant hidden sm:inline">&gt;</span>
+          <span class="font-semibold text-on-surface">Sector 4</span>
+          <span class="text-outline-variant">&gt;</span>
+          <span class="font-telemetry-md text-primary font-medium">Master Hub DXB-01</span>
+        </div>
+
+        <!-- Telemetry Chips (Desktop / XL) -->
+        <div class="hidden xl:flex items-center gap-space-xs">
+          <div class="flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-caps text-label-caps font-semibold">
+            <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+            SOLAR <span class="val-solar font-bold">17.5W</span> [OPTIMAL]
+          </div>
+          <div class="flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-caps text-label-caps font-semibold">
+            <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+            BATTERY <span class="val-battery font-bold">12.6V</span> [94%]
+          </div>
+          <div class="val-modbus flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-caps text-label-caps font-semibold">
+            <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>RS485 MODBUS OK
+          </div>
+          <div class="flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-caps text-label-caps font-semibold">
+            <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>PRESS: <span class="val-pressure font-bold">2.10 Bar</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Mode Switcher, Notifications & Active Profile -->
+      <div class="flex items-center gap-2 sm:gap-space-md">
+        <!-- Live vs Simulator Toggle -->
+        <div class="flex items-center bg-surface-container p-0.5 rounded-lg">
+          <button id="btn-mode-live" class="px-space-sm py-1 rounded font-label-caps text-label-caps bg-primary text-on-primary font-bold shadow-sm" type="button">LIVE SENSORS</button>
+          <button id="btn-mode-sim" class="px-space-sm py-1 rounded font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface font-semibold" type="button">SIMULATOR_DEMO</button>
+        </div>
+
+        <!-- Notifications Bell -->
+        <div class="relative">
+          <button id="btn-notifications" class="relative flex items-center justify-center p-space-xs text-on-surface-variant hover:text-on-surface cursor-pointer rounded-lg hover:bg-surface-container">
+            <span class="material-symbols-outlined text-[20px]">notifications</span>
+            <span class="absolute top-0 right-0 w-4 h-4 bg-error text-on-error rounded-full font-label-caps text-[9px] flex items-center justify-center font-bold">1</span>
+          </button>
+          <!-- Popover -->
+          <div id="notifications-popover" class="hidden absolute right-0 mt-2 w-80 bg-surface-container-lowest rounded-xl shadow-2xl p-space-md border border-outline-variant/30 z-50">
+            <div class="flex items-center justify-between pb-2 border-b border-surface-container">
+              <span class="font-headline-sm text-body-md font-bold text-on-surface">Active Telemetry Alarms</span>
+              <span class="font-label-caps text-label-caps text-error bg-error/10 px-1.5 py-0.5 rounded font-bold">1 UNRESOLVED</span>
+            </div>
+            <div class="py-2 space-y-2">
+              <div class="p-2 rounded bg-error-container/30 text-body-sm font-body-sm flex items-start gap-2">
+                <span class="material-symbols-outlined text-error text-[18px] shrink-0 mt-0.5">warning</span>
+                <div>
+                  <strong class="text-on-surface block">Tree-02 Moisture Alert</strong>
+                  <span class="text-on-surface-variant text-body-sm">VWC reached 7.8% (Permanent wilting threshold is 12.0%). Critical dosing recommended.</span>
+                </div>
+              </div>
+            </div>
+            <div class="pt-2 text-center">
+              <button class="w-full py-1.5 bg-surface-container hover:bg-surface-variant rounded text-on-surface font-label-caps text-label-caps uppercase font-bold" data-path="multi-tree-digital-twin">
+                View Tree-02 Digital Twin
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="h-6 w-[1px] bg-outline-variant hidden sm:block"></div>
+
+        <!-- User Profile -->
+        <div class="flex items-center gap-space-sm cursor-pointer" data-path="login" title="Click to Switch Role">
+          <div class="text-right hidden sm:block">
+            <span class="font-headline-sm text-body-md font-bold text-on-surface block leading-tight current-user-name">Eng. Fatima</span>
+            <span class="font-label-caps text-label-caps text-on-surface-variant block uppercase current-user-role">Agricultural Supervisor</span>
+          </div>
+          <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-sm hover:bg-primary-container transition-colors">
+            <span class="material-symbols-outlined text-[18px]">person</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN BODY CONTAINER (Padded for Header & Footer) -->
+    <main class="w-full pt-16 pb-24 bg-background flex-1">
+
+      <!-- ============================================================ -->
+      <!-- VIEW 1: DASHBOARD OVERVIEW (#dashboard-overview) -->
+      <!-- ============================================================ -->
+      <div id="view-dashboard-overview" class="spa-view p-4 sm:p-6 lg:p-8 max-w-[1720px] mx-auto w-full space-y-6">
+        <!-- Dashboard Welcome Banner -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-2xl bg-gradient-to-r from-primary via-primary-container to-secondary text-on-primary shadow-md relative overflow-hidden">
+          <div class="space-y-1 relative z-10">
+            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-surface-container-lowest/15 backdrop-blur text-primary-fixed font-label-caps text-label-caps uppercase tracking-wider">
+              <span class="w-2 h-2 rounded-full bg-primary-fixed animate-ping"></span>
+              Al Ain Sector 4 Precision Cluster
+            </div>
+            <h1 class="font-headline-xl text-headline-xl font-bold tracking-tight text-white">Central Agritech Operations Dashboard</h1>
+            <p class="font-body-md text-body-md text-primary-fixed-dim max-w-xl">
+              Master Hub DXB-01 synchronizing 3 satellite soil probes, optical canopy phenotyping mast, and closed-loop hydraulic manifolds.
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-3 relative z-10">
+            <button class="px-4 py-2.5 rounded-lg bg-surface-container-lowest text-primary font-body-md font-bold hover:bg-surface-container transition-all shadow-sm flex items-center gap-2" data-path="multi-tree-digital-twin">
+              <span class="material-symbols-outlined text-[18px]">forest</span>
+              <span>Open Digital Twin</span>
+            </button>
+            <button class="px-4 py-2.5 rounded-lg bg-error text-on-error font-body-md font-bold hover:bg-error/90 transition-all shadow-md flex items-center gap-2" data-path="precision-fluid-dosing">
+              <span class="material-symbols-outlined text-[18px]">water_drop</span>
+              <span>Trigger Precision Dosing</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- KPI Grid: Grove Vitality, Hydraulic Pressure, Edge AI, Weather -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+          <!-- KPI 1 -->
+          <div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="font-label-caps text-label-caps text-outline uppercase font-semibold">Active Tree Health</span>
+              <span class="p-1.5 rounded-lg bg-secondary-container text-primary">
+                <span class="material-symbols-outlined text-[18px]">spa</span>
+              </span>
+            </div>
+            <div>
+              <div class="font-telemetry-lg text-headline-xl font-bold text-on-surface">2 / 3 <span class="text-body-md font-normal text-on-surface-variant">Nominal</span></div>
+              <p class="font-body-sm text-body-sm text-error font-medium flex items-center gap-1 mt-1">
+                <span class="material-symbols-outlined text-[14px]">warning</span>
+                Tree-02 Barhi Requires Urgent Irrigation
+              </p>
+            </div>
+            <div class="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+              <div class="bg-primary h-full w-[66%]"></div>
+            </div>
+          </div>
+
+          <!-- KPI 2 -->
+          <div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="font-label-caps text-label-caps text-outline uppercase font-semibold">Pneumatic Line Pressure</span>
+              <span class="p-1.5 rounded-lg bg-secondary-container text-primary">
+                <span class="material-symbols-outlined text-[18px]">speed</span>
+              </span>
+            </div>
+            <div>
+              <div class="font-telemetry-lg text-headline-xl font-bold text-primary val-pressure">2.10 Bar</div>
+              <p class="font-body-sm text-body-sm text-secondary font-medium flex items-center gap-1 mt-1">
+                <span class="material-symbols-outlined text-[14px]">verified_user</span>
+                &lt;120ms Safety Interlock Armed
+              </p>
+            </div>
+            <div class="flex justify-between font-label-caps text-label-caps text-outline">
+              <span>Min: 0.8 Bar</span>
+              <span>Nominal: 2.1 Bar</span>
+              <span>Max: 3.0 Bar</span>
+            </div>
+          </div>
+
+          <!-- KPI 3 -->
+          <div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="font-label-caps text-label-caps text-outline uppercase font-semibold">Edge Coral TPU</span>
+              <span class="p-1.5 rounded-lg bg-secondary-container text-primary">
+                <span class="material-symbols-outlined text-[18px]">memory</span>
+              </span>
+            </div>
+            <div>
+              <div class="font-telemetry-lg text-headline-xl font-bold text-on-surface">18.2 ms <span class="text-body-md font-normal text-secondary font-semibold">(30 FPS)</span></div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">YOLOv8-AGRI-EXP4 INT8 Model Synced</p>
+            </div>
+            <div class="flex items-center justify-between font-label-caps text-label-caps text-outline">
+              <span>HW: Coral Edge TPU</span>
+              <span class="text-primary font-bold">ONLINE</span>
+            </div>
+          </div>
+
+          <!-- KPI 4 -->
+          <div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="font-label-caps text-label-caps text-outline uppercase font-semibold">Al Ain Hyper-Arid Climate</span>
+              <span class="p-1.5 rounded-lg bg-secondary-container text-tertiary">
+                <span class="material-symbols-outlined text-[18px]">sunny</span>
+              </span>
+            </div>
+            <div>
+              <div class="font-telemetry-lg text-headline-xl font-bold text-tertiary-container">42.2°C <span class="text-body-md font-normal text-on-surface-variant">(18% RH)</span></div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">VPD: 4.85 kPa · Solar: 985 W/m²</p>
+            </div>
+            <div class="flex items-center justify-between font-label-caps text-label-caps text-outline">
+              <span>Transpiration: Elevated</span>
+              <span class="text-error font-bold">WATER STRESS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3-Tree Live Overview Cards -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">Monitored Date Palm Specimen Twins</h2>
+            <a class="font-label-caps text-label-caps text-primary hover:underline font-bold uppercase flex items-center gap-1" data-path="multi-tree-digital-twin" href="#multi-tree-digital-twin">
+              Detailed Twin Matrix <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+            </a>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Tree 1 -->
+            <div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm border border-outline-variant/30 hover:shadow-md transition-all cursor-pointer space-y-3" onclick="PalmCare.navigate('multi-tree-digital-twin'); DigitalTwin.selectTree('TR-01');">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="font-label-caps text-label-caps text-outline uppercase">TRNK-MD-01</span>
+                    <span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-caps text-label-caps font-bold">NOMINAL</span>
+                  </div>
+                  <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mt-1">Tree-01 · Medjool (12 yr)</h3>
+                </div>
+                <span class="material-symbols-outlined text-secondary text-[24px]">spa</span>
+              </div>
+              <div class="grid grid-cols-3 gap-2 p-2.5 rounded-lg bg-surface-container-low font-telemetry-md text-body-sm">
+                <div>
+                  <span class="font-label-caps text-label-caps text-outline block">MOISTURE</span>
+                  <span class="text-primary font-bold">18.4%</span>
+                </div>
+                <div>
+                  <span class="font-label-caps text-label-caps text-outline block">SALINITY EC</span>
+                  <span>1,420</span>
+                </div>
+                <div>
+                  <span class="font-label-caps text-label-caps text-outline block">NDVI</span>
+                  <span>0.81</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tree 2 (Alert) -->
+            <div class="p-5 rounded-xl bg-surface-container-lowest shadow-md ring-2 ring-error/60 hover:shadow-lg transition-all cursor-pointer space-y-3" onclick="PalmCare.navigate('multi-tree-digital-twin'); DigitalTwin.selectTree('TR-02');">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="font-label-caps text-label-caps text-error uppercase font-bold">TRNK-BH-02</span>
+                    <span class="px-2 py-0.5 rounded bg-error-container text-on-error-container font-label-caps text-label-caps font-bold">DESICCATION THREAT</span>
+                  </div>
+                  <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mt-1">Tree-02 · Barhi (8 yr)</h3>
+                </div>
+                <div class="w-8 h-8 rounded-full bg-error/10 flex items-center justify-center text-error">
+                  <span class="material-symbols-outlined text-[20px] animate-pulse">warning</span>
+                </div>
+              </div>
+              <div class="grid grid-cols-3 gap-2 p-2.5 rounded-lg bg-error-container/20 font-telemetry-md text-body-sm">
+                <div>
+                  <span class="font-label-caps text-label-caps text-error block">MOISTURE</span>
+                  <span class="text-error font-bold">7.8%</span>
+                </div>
+                <div>
+                  <span class="font-label-caps text-label-caps text-outline block">SALINITY EC</span>
+                  <span class="text-tertiary font-bold">2,920</span>
+                </div>
+                <div>
+                  <span class="font-label-caps text-label-caps text-outline block">NDVI</span>
+                  <span class="text-tertiary">0.54</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tree 3 -->
+            <div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm border border-outline-variant/30 hover:shadow-md transition-all cursor-pointer space-y-3" onclick="PalmCare.navigate('multi-tree-digital-twin'); DigitalTwin.selectTree('TR-03');">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="font-label-caps text-label-caps text-outline uppercase">TRNK-KH-03</span>
+                    <span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-caps text-label-caps font-bold">NOMINAL</span>
+                  </div>
+                  <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mt-1">Tree-03 · Khalas (15 yr)</h3>
+                </div>
+                <span class="material-symbols-outlined text-secondary text-[24px]">forest</span>
+              </div>
+              <div class="grid grid-cols-3 gap-2 p-2.5 rounded-lg bg-surface-container-low font-telemetry-md text-body-sm">
+                <div>
+                  <span class="font-label-caps text-label-caps text-outline block">MOISTURE</span>
+                  <span class="text-primary font-bold">16.2%</span>
+                </div>
+                <div>
+                  <span class="font-label-caps text-label-caps text-outline block">SALINITY EC</span>
+                  <span>1,890</span>
+                </div>
+                <div>
+                  <span class="font-label-caps text-label-caps text-outline block">NDVI</span>
+                  <span>0.77</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- VIEW 2: MULTI-TREE DIGITAL TWIN STUDIO (#multi-tree-digital-twin) -->
+      <!-- ============================================================ -->
+      <div id="view-multi-tree-digital-twin" class="spa-view p-4 sm:p-6 lg:p-8 max-w-[1600px] mx-auto w-full space-y-8">
+        <!-- Top Bar: Navigation, Tree Switcher & Primary Interventions -->
+        <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-6 pb-2">
+          <div class="space-y-2">
+            <div class="flex items-center gap-2 font-label-caps text-label-caps uppercase tracking-wider text-outline">
+              <span>Al Ain Plantation</span>
+              <span class="text-outline-variant">/</span>
+              <span>Sector 4</span>
+              <span class="text-outline-variant">/</span>
+              <span class="text-primary font-bold">Digital Twin Studio</span>
+            </div>
+            <div class="flex flex-wrap items-baseline gap-3">
+              <h1 id="twin-matrix-title" class="font-headline-xl text-headline-xl text-on-surface tracking-tight font-bold">Twin Matrix // TR-02 (Barhi)</h1>
+              <span id="twin-matrix-alert-badge" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-error/10 text-error font-label-caps text-label-caps font-bold animate-pulse">
+                <span class="w-2 h-2 rounded-full bg-error"></span>
+                CRITICAL HYDRAULIC DEFICIT (7.8% VWC)
+              </span>
+            </div>
+          </div>
+
+          <!-- Action Cluster -->
+          <div class="flex flex-wrap items-center gap-3">
+            <a class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-surface-container-high text-on-surface hover:bg-surface-variant font-body-md text-body-md transition-colors shadow-sm" data-path="dashboard-overview" href="#dashboard-overview">
+              <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+              <span>Return to Overview</span>
+            </a>
+            <button class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary-container text-on-primary hover:bg-primary font-body-md text-body-md font-semibold transition-all shadow-md active:scale-95" id="open-dosing-btn" type="button">
+              <span class="material-symbols-outlined text-[18px]">water_drop</span>
+              <span>Trigger Precision Dosing</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tree Twin Carousel Selector -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Tree 01: Medjool -->
+          <div class="tree-selector-card group relative p-4 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all cursor-pointer" data-tree-id="TR-01">
+            <div class="flex items-start justify-between">
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <span class="font-label-caps text-label-caps text-outline uppercase">NODE TRNK-MD-01</span>
+                  <span class="px-1.5 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-caps text-label-caps font-bold">HEALTHY</span>
+                </div>
+                <p class="font-headline-sm text-headline-sm text-on-surface font-bold">Tree-01 · Medjool (12 yr)</p>
+              </div>
+              <span class="material-symbols-outlined text-secondary text-[24px]">spa</span>
+            </div>
+            <div class="mt-4 pt-3 flex items-center justify-between font-telemetry-md text-body-sm text-on-surface-variant">
+              <span>Moisture: <strong class="text-on-surface font-semibold">18.4%</strong></span>
+              <span>EC: 1,420 µS/cm</span>
+              <span>NDVI: 0.81</span>
+            </div>
+          </div>
+
+          <!-- Tree 02: Barhi (Selected & Alert) -->
+          <div class="tree-selector-card relative p-4 rounded-xl bg-surface-container-lowest shadow-md ring-2 ring-error/60 transition-all cursor-pointer" data-tree-id="TR-02">
+            <div class="absolute -top-2.5 right-4 px-2 py-0.5 rounded-full bg-error text-on-error font-label-caps text-[9px] font-bold tracking-widest uppercase shadow-sm">
+              ALERT ACTIVE
+            </div>
+            <div class="flex items-start justify-between">
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <span class="font-label-caps text-label-caps text-error uppercase font-semibold">NODE TRNK-BH-02</span>
+                  <span class="px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-label-caps text-label-caps font-bold">DESICCATION THREAT</span>
+                </div>
+                <p class="font-headline-sm text-headline-sm text-on-surface font-bold">Tree-02 · Barhi (8 yr)</p>
+              </div>
+              <div class="w-8 h-8 rounded-full bg-error/10 flex items-center justify-center text-error">
+                <span class="material-symbols-outlined text-[20px] animate-pulse">warning</span>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 flex items-center justify-between font-telemetry-md text-body-sm text-on-surface-variant">
+              <span>Moisture: <strong class="text-error font-bold text-telemetry-md">7.8%</strong></span>
+              <span>EC: 2,920 µS/cm</span>
+              <span>NDVI: <span class="text-tertiary font-semibold">0.54</span></span>
+            </div>
+          </div>
+
+          <!-- Tree 03: Khalas -->
+          <div class="tree-selector-card group relative p-4 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all cursor-pointer" data-tree-id="TR-03">
+            <div class="flex items-start justify-between">
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <span class="font-label-caps text-label-caps text-outline uppercase">NODE TRNK-KH-03</span>
+                  <span class="px-1.5 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-caps text-label-caps font-bold">NOMINAL</span>
+                </div>
+                <p class="font-headline-sm text-headline-sm text-on-surface font-bold">Tree-03 · Khalas (15 yr)</p>
+              </div>
+              <span class="material-symbols-outlined text-secondary text-[24px]">forest</span>
+            </div>
+            <div class="mt-4 pt-3 flex items-center justify-between font-telemetry-md text-body-sm text-on-surface-variant">
+              <span>Moisture: <strong class="text-on-surface font-semibold">16.2%</strong></span>
+              <span>EC: 1,890 µS/cm</span>
+              <span>NDVI: 0.77</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7-Day Soil Moisture Depletion Curve + Interactive Scrubber -->
+        <div class="p-6 rounded-2xl bg-surface-container-lowest shadow-sm space-y-6">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">show_chart</span>
+                <span class="font-label-caps text-label-caps text-outline uppercase tracking-wider">Multi-Depth TDT In-Situ Probe Array</span>
+              </div>
+              <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold">7-Day Rootzone Moisture Depletion &amp; Diurnal Flux</h2>
+            </div>
+            <!-- Telemetry Pill Badges -->
+            <div class="flex flex-wrap items-center gap-2">
+              <div id="twin-pill-vwc" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-telemetry-md text-body-sm">
+                <span class="w-2.5 h-2.5 rounded-full bg-error"></span>
+                <span>Soil Moisture (VWC): <strong class="text-error font-bold">7.8%</strong> (-60.6%)</span>
+              </div>
+              <div id="twin-pill-root" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-telemetry-md text-body-sm">
+                <span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+                <span>Sub-Soil Root Temp: <strong class="text-on-surface font-bold">34.0°C</strong></span>
+              </div>
+              <div id="twin-pill-ec" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-telemetry-md text-body-sm">
+                <span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+                <span>Pore Salinity EC: <strong class="text-on-surface font-bold">2,920 µS/cm</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Main SVG Vector Depletion Graph -->
+          <div class="relative w-full bg-surface-container-low/60 rounded-xl p-4 overflow-hidden">
+            <svg class="w-full h-72 overflow-visible select-none" preserveaspectratio="none" viewbox="0 0 1100 320">
+              <defs>
+                <lineargradient id="moistureGradient" x1="0%" x2="0%" y1="0%" y2="100%">
+                  <stop offset="0%" stop-color="#ba1a1a" stop-opacity="0.25"></stop>
+                  <stop offset="100%" stop-color="#ba1a1a" stop-opacity="0.0"></stop>
+                </lineargradient>
+                <lineargradient id="criticalBand" x1="0%" x2="100%" y1="0%" y2="0%">
+                  <stop offset="0%" stop-color="#ffdcc3" stop-opacity="0.15"></stop>
+                  <stop offset="100%" stop-color="#ffdad6" stop-opacity="0.35"></stop>
+                </lineargradient>
+              </defs>
+              <!-- Critical Stress Zone Highlight (Below 12.0% VWC) -->
+              <rect fill="url(#criticalBand)" height="100" rx="6" width="1010" x="60" y="180"></rect>
+              <line opacity="0.8" stroke="#ba1a1a" stroke-dasharray="4 4" stroke-width="1.5" x1="60" x2="1070" y1="180" y2="180"></line>
+              <text class="font-label-caps text-[10px] font-bold" fill="#ba1a1a" x="70" y="174">PERMANENT WILTING POINT THRESHOLD // 12.0% VWC</text>
+              <!-- Horizontal Grid Ticks -->
+              <line opacity="0.6" stroke="#bfc9c1" stroke-dasharray="2 4" stroke-width="0.75" x1="60" x2="1070" y1="40" y2="40"></line>
+              <text class="font-telemetry-md text-[11px]" fill="#707973" text-anchor="end" x="48" y="44">22%</text>
+              <line opacity="0.6" stroke="#bfc9c1" stroke-dasharray="2 4" stroke-width="0.75" x1="60" x2="1070" y1="110" y2="110"></line>
+              <text class="font-telemetry-md text-[11px]" fill="#707973" text-anchor="end" x="48" y="114">17%</text>
+              <text class="font-telemetry-md text-[11px] font-bold" fill="#ba1a1a" text-anchor="end" x="48" y="184">12%</text>
+              <line opacity="0.6" stroke="#bfc9c1" stroke-dasharray="2 4" stroke-width="0.75" x1="60" x2="1070" y1="240" y2="240"></line>
+              <text class="font-telemetry-md text-[11px]" fill="#707973" text-anchor="end" x="48" y="244">7%</text>
+              <!-- Day Columns Separators -->
+              <line opacity="0.4" stroke="#bfc9c1" stroke-width="0.75" x1="204" x2="204" y1="30" y2="280"></line>
+              <line opacity="0.4" stroke="#bfc9c1" stroke-width="0.75" x1="348" x2="348" y1="30" y2="280"></line>
+              <line opacity="0.4" stroke="#bfc9c1" stroke-width="0.75" x1="492" x2="492" y1="30" y2="280"></line>
+              <line opacity="0.4" stroke="#bfc9c1" stroke-width="0.75" x1="636" x2="636" y1="30" y2="280"></line>
+              <line opacity="0.4" stroke="#bfc9c1" stroke-width="0.75" x1="780" x2="780" y1="30" y2="280"></line>
+              <line opacity="0.4" stroke="#bfc9c1" stroke-width="0.75" x1="924" x2="924" y1="30" y2="280"></line>
+              <!-- Fill area for Moisture curve -->
+              <path d="M 60 70 
+                       C 130 75, 170 85, 204 95
+                       C 260 102, 310 118, 348 128
+                       C 410 142, 450 160, 492 178
+                       C 550 200, 600 215, 636 226
+                       C 700 238, 740 248, 780 252
+                       C 840 256, 880 262, 924 266
+                       C 980 270, 1020 273, 1070 275
+                       L 1070 280 L 60 280 Z" fill="url(#moistureGradient)"></path>
+              <!-- Salinity Curve (EC µS/cm) Rising as Soil Dries -->
+              <path d="M 60 230
+                       C 204 220, 348 200, 492 170
+                       C 636 150, 780 120, 924 95
+                       C 990 85, 1030 78, 1070 72" fill="none" stroke="#3f6653" stroke-linecap="round" stroke-width="2.5"></path>
+              <!-- Root Temperature Curve (Diurnal oscillations peaking mid-afternoon) -->
+              <path d="M 60 160 
+                       Q 100 130, 132 165 T 204 162
+                       Q 250 125, 276 168 T 348 160
+                       Q 390 120, 420 165 T 492 155
+                       Q 540 110, 564 160 T 636 150
+                       Q 680 105, 708 152 T 780 145
+                       Q 830 95, 852 148 T 924 138
+                       Q 970 90, 1000 142 T 1070 130" fill="none" stroke="#6f3a00" stroke-dasharray="3 3" stroke-width="1.8"></path>
+              <!-- Main Moisture Depletion Curve (VWC %) -->
+              <path d="M 60 70 
+                       C 130 75, 170 85, 204 95
+                       C 260 102, 310 118, 348 128
+                       C 410 142, 450 160, 492 178
+                       C 550 200, 600 215, 636 226
+                       C 700 238, 740 248, 780 252
+                       C 840 256, 880 262, 924 266
+                       C 980 270, 1020 273, 1070 275" fill="none" stroke="#ba1a1a" stroke-linecap="round" stroke-width="3.5"></path>
+              <!-- Day Ticks and Labels -->
+              <text class="font-telemetry-md text-[11px]" fill="#707973" text-anchor="middle" x="60" y="302">DAY -7 (19.8%)</text>
+              <text class="font-telemetry-md text-[11px]" fill="#707973" text-anchor="middle" x="204" y="302">DAY -6 (17.5%)</text>
+              <text class="font-telemetry-md text-[11px]" fill="#707973" text-anchor="middle" x="348" y="302">DAY -5 (15.2%)</text>
+              <text class="font-telemetry-md text-[11px] font-bold" fill="#ba1a1a" text-anchor="middle" x="492" y="302">DAY -4 (12.1%)</text>
+              <text class="font-telemetry-md text-[11px] font-bold" fill="#ba1a1a" text-anchor="middle" x="636" y="302">DAY -3 (9.8%)</text>
+              <text class="font-telemetry-md text-[11px] font-bold" fill="#ba1a1a" text-anchor="middle" x="780" y="302">DAY -2 (8.5%)</text>
+              <text class="font-telemetry-md text-[11px] font-bold" fill="#ba1a1a" text-anchor="middle" x="924" y="302">DAY -1 (8.0%)</text>
+              <text class="font-telemetry-md text-[11px] font-bold" fill="#ba1a1a" text-anchor="end" x="1070" y="302">NOW (7.8%)</text>
+              <!-- Active Marker Dot on Day 7 (Today) -->
+              <circle class="animate-ping" cx="1070" cy="275" fill="#ba1a1a" r="6" stroke="#ffffff" stroke-width="2"></circle>
+              <circle cx="1070" cy="275" fill="#ba1a1a" r="5"></circle>
+            </svg>
+
+            <!-- Dynamic Timeline Scrub Control -->
+            <div class="mt-4 pt-4 flex flex-col md:flex-row items-center justify-between gap-4 bg-surface-container-lowest/90 p-3 rounded-lg backdrop-blur-sm shadow-xs">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary text-[20px]">tune</span>
+                <div>
+                  <span class="font-label-caps text-label-caps text-outline uppercase block">DIURNAL EVAPOTRANSPIRATION REPLAY SCRUBBER</span>
+                  <span id="scrubber-live-tooltip" class="font-body-sm text-body-sm text-on-surface-variant">
+                    Drag to correlate solar irradiance with stomatal closure &amp; suction tension
+                  </span>
+                </div>
+              </div>
+              <div class="flex items-center gap-4 w-full md:w-80">
+                <span class="font-label-caps text-label-caps text-outline font-bold">D-7</span>
+                <input class="w-full h-1.5 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-primary" id="time-scrubber" max="7" min="1" type="range" value="7"/>
+                <span class="font-label-caps text-label-caps text-error font-bold">TODAY</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <button class="btn-timescale px-2.5 py-1 rounded bg-surface-container font-label-caps text-label-caps text-on-surface hover:bg-surface-variant" data-scale="12h" type="button">12H</button>
+                <button class="btn-timescale px-2.5 py-1 rounded bg-surface-container font-label-caps text-label-caps text-on-surface hover:bg-surface-variant" data-scale="24h" type="button">24H</button>
+                <button class="btn-timescale px-2.5 py-1 rounded bg-primary text-on-primary font-label-caps text-label-caps font-bold" data-scale="7d" type="button">7 DAYS</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bento Grid Section: Macronutrients Radar & Lithological Soil Profile -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <!-- Substrate NPK Assay & Macronutrient Matrix (7 Cols) -->
+          <div class="lg:col-span-7 p-6 rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col justify-between space-y-6">
+            <div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-tertiary text-[20px]">biotech</span>
+                  <span class="font-label-caps text-label-caps text-outline uppercase tracking-wider">Ion-Selective Electrode Telemetry // Probe ISE-04</span>
+                </div>
+                <span class="font-telemetry-md text-body-sm text-outline">CALIBRATED 06:00 GST</span>
+              </div>
+              <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold mt-1">Macronutrient &amp; Substrate Chemical Matrix</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+              <!-- Vector Radar Polygon Representation -->
+              <div class="relative flex items-center justify-center p-2 bg-surface-container-low rounded-xl aspect-square">
+                <svg class="w-full max-w-[220px] h-auto" viewbox="0 0 240 240">
+                  <!-- Concentric Background Triangles -->
+                  <polygon fill="none" opacity="0.5" points="120,20 215,190 25,190" stroke="#bfc9c1" stroke-width="0.8"></polygon>
+                  <polygon fill="none" opacity="0.5" points="120,50 190,175 50,175" stroke="#bfc9c1" stroke-width="0.8"></polygon>
+                  <polygon fill="none" opacity="0.5" points="120,85 165,160 75,160" stroke="#bfc9c1" stroke-width="0.8"></polygon>
+                  <!-- Axes -->
+                  <line stroke="#bfc9c1" stroke-dasharray="2 2" stroke-width="1" x1="120" x2="120" y1="120" y2="20"></line>
+                  <line stroke="#bfc9c1" stroke-dasharray="2 2" stroke-width="1" x1="120" x2="215" y1="120" y2="190"></line>
+                  <line stroke="#bfc9c1" stroke-dasharray="2 2" stroke-width="1" x1="120" x2="25" y1="120" y2="190"></line>
+                  <!-- Optimal Target Envelope (Green tint) -->
+                  <polygon fill="rgba(45, 106, 79, 0.15)" points="120,38 185,170 55,170" stroke="#2d6a4f" stroke-width="1.5"></polygon>
+                  <!-- Measured Dynamic Polygon -->
+                  <polygon id="radar-measured-polygon" class="radar-polygon" fill="rgba(186, 26, 26, 0.25)" points="120,95 145,150 90,165" stroke="#ba1a1a" stroke-width="2.5"></polygon>
+                  <!-- Axis Value Nodes -->
+                  <circle id="radar-node-n" cx="120" cy="95" fill="#ba1a1a" r="4"></circle>
+                  <circle id="radar-node-p" cx="145" cy="150" fill="#ba1a1a" r="4"></circle>
+                  <circle id="radar-node-k" cx="90" cy="165" fill="#ba1a1a" r="4"></circle>
+                  <!-- Axis Labels -->
+                  <text class="font-headline-sm text-[11px] font-bold" fill="#191c1c" text-anchor="middle" x="120" y="14">NITROGEN (N)</text>
+                  <text class="font-headline-sm text-[11px] font-bold" fill="#191c1c" text-anchor="middle" x="218" y="202">PHOSPHORUS (P)</text>
+                  <text class="font-headline-sm text-[11px] font-bold" fill="#191c1c" text-anchor="middle" x="22" y="202">POTASSIUM (K)</text>
+                </svg>
+              </div>
+
+              <!-- Nutrient Metrics Readout Stack -->
+              <div class="space-y-4">
+                <!-- Nitrogen -->
+                <div class="p-3 rounded-lg bg-surface-container-low space-y-1">
+                  <div class="flex items-center justify-between">
+                    <span class="font-label-caps text-label-caps text-outline uppercase font-semibold">Nitrogen (NO3-N)</span>
+                    <span id="badge-nutrient-n" class="px-2 py-0.5 rounded bg-error-container text-on-error-container font-label-caps text-label-caps font-bold">DEFICIENT</span>
+                  </div>
+                  <div class="flex items-baseline justify-between font-telemetry-lg text-telemetry-lg">
+                    <span id="val-nutrient-n" class="text-error font-bold">14 <span class="text-body-sm font-normal text-outline">PPM</span></span>
+                    <span class="font-telemetry-md text-body-sm text-outline">Rec: 45-60 PPM</span>
+                  </div>
+                  <div class="w-full bg-surface-variant h-1.5 rounded-full overflow-hidden">
+                    <div id="bar-nutrient-n" class="bg-error h-full w-[28%] transition-all duration-300"></div>
+                  </div>
+                </div>
+
+                <!-- Phosphorus -->
+                <div class="p-3 rounded-lg bg-surface-container-low space-y-1">
+                  <div class="flex items-center justify-between">
+                    <span class="font-label-caps text-label-caps text-outline uppercase font-semibold">Phosphorus (PO4-P)</span>
+                    <span id="badge-nutrient-p" class="px-2 py-0.5 rounded bg-error-container text-on-error-container font-label-caps text-label-caps font-bold">DEFICIENT</span>
+                  </div>
+                  <div class="flex items-baseline justify-between font-telemetry-lg text-telemetry-lg">
+                    <span id="val-nutrient-p" class="text-error font-bold">8 <span class="text-body-sm font-normal text-outline">PPM</span></span>
+                    <span class="font-telemetry-md text-body-sm text-outline">Rec: 20-30 PPM</span>
+                  </div>
+                  <div class="w-full bg-surface-variant h-1.5 rounded-full overflow-hidden">
+                    <div id="bar-nutrient-p" class="bg-error h-full w-[30%] transition-all duration-300"></div>
+                  </div>
+                </div>
+
+                <!-- Potassium -->
+                <div class="p-3 rounded-lg bg-surface-container-low space-y-1">
+                  <div class="flex items-center justify-between">
+                    <span class="font-label-caps text-label-caps text-outline uppercase font-semibold">Potassium (K+)</span>
+                    <span id="badge-nutrient-k" class="px-2 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-label-caps text-label-caps font-bold">DEPLETED</span>
+                  </div>
+                  <div class="flex items-baseline justify-between font-telemetry-lg text-telemetry-lg">
+                    <span id="val-nutrient-k" class="text-tertiary font-bold">60 <span class="text-body-sm font-normal text-outline">PPM</span></span>
+                    <span class="font-telemetry-md text-body-sm text-outline">Rec: 140-180 PPM</span>
+                  </div>
+                  <div class="w-full bg-surface-variant h-1.5 rounded-full overflow-hidden">
+                    <div id="bar-nutrient-k" class="bg-tertiary h-full w-[38%] transition-all duration-300"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-surface-container flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-[18px]">science</span>
+                <span>Agronomic Prescription: Fertigation inject batch <strong>N:P:K (12-5-40)</strong> recommended.</span>
+              </div>
+              <span class="font-telemetry-md text-body-sm font-bold text-primary">Req: 35.0 L</span>
+            </div>
+          </div>
+
+          <!-- Soil Profile Cross-Section Diagram (5 Cols) -->
+          <div class="lg:col-span-5 p-6 rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col justify-between space-y-6">
+            <div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-secondary text-[20px]">layers</span>
+                  <span class="font-label-caps text-label-caps text-outline uppercase tracking-wider">Subterranean Horizon Stratum</span>
+                </div>
+                <span class="font-label-caps text-label-caps px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-bold">120CM DEPTH CORE</span>
+              </div>
+              <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold mt-1">Lithological Soil Profile</h2>
+            </div>
+
+            <!-- Cross Section Graphic Container -->
+            <div class="relative w-full rounded-xl bg-surface-container-low p-4 flex gap-4 overflow-hidden">
+              <!-- Depth Metric Ruler -->
+              <div class="flex flex-col justify-between font-telemetry-md text-body-sm text-outline py-1 select-none">
+                <span>0 cm</span>
+                <span>-25 cm</span>
+                <span>-45 cm</span>
+                <span>-80 cm</span>
+                <span>-120 cm</span>
+              </div>
+              <!-- Stratum Column Visualizer -->
+              <div class="flex-1 flex flex-col gap-1.5">
+                <!-- Horizon A: Sand (78%) -->
+                <div class="h-20 rounded-lg bg-amber-100/70 p-2.5 flex flex-col justify-between relative overflow-hidden">
+                  <div class="flex items-center justify-between">
+                    <span class="font-label-caps text-label-caps text-tertiary uppercase font-bold">HORIZON A // AEOLIAN DUNE SAND (78%)</span>
+                    <span id="soil-vwc-horizon-a" class="font-telemetry-md text-body-sm text-tertiary font-bold">VWC: 6.2%</span>
+                  </div>
+                  <span class="font-body-sm text-[11px] text-tertiary">Rapid percolation zone · Aeration optimal · High drainage rate</span>
+                </div>
+                <!-- Salinity Critical Interface (45cm Depth Marker) -->
+                <div class="relative flex items-center">
+                  <div class="w-full border-t border-dashed border-error"></div>
+                  <div class="absolute right-0 bg-error text-on-error px-2 py-0.5 rounded-full font-label-caps text-[9px] font-bold tracking-wider uppercase">
+                    SALINITY CRITICAL ZONE @ 45CM
+                  </div>
+                </div>
+                <!-- Horizon B: Silt (10%) & Salinity Accumulation Layer -->
+                <div class="h-16 rounded-lg bg-emerald-100/60 p-2.5 flex flex-col justify-between">
+                  <div class="flex items-center justify-between">
+                    <span class="font-label-caps text-label-caps text-secondary uppercase font-bold">HORIZON B // SILT &amp; GYPSIFEROUS (10%)</span>
+                    <span id="soil-ec-horizon-b" class="font-telemetry-md text-body-sm text-secondary font-bold">2,920 µS/cm</span>
+                  </div>
+                  <span class="font-body-sm text-[11px] text-secondary">Active secondary root zone · Mineral precipitate hazard</span>
+                </div>
+                <!-- Horizon C: Clay Barrier (12%) -->
+                <div class="h-16 rounded-lg bg-stone-200/80 p-2.5 flex flex-col justify-between">
+                  <div class="flex items-center justify-between">
+                    <span class="font-label-caps text-label-caps text-on-surface-variant uppercase font-bold">HORIZON C // ARIDIC CLAY (12%)</span>
+                    <span id="soil-vwc-horizon-c" class="font-telemetry-md text-body-sm text-on-surface-variant font-bold">VWC: 14.8%</span>
+                  </div>
+                  <span class="font-body-sm text-[11px] text-on-surface-variant">Low hydraulic conductivity · Capillary barrier</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2">
+              <div class="flex items-center gap-2 font-body-sm text-body-sm text-on-surface-variant">
+                <span class="w-2 h-2 rounded-full bg-error"></span>
+                <span>Leaching Fraction Requirement: <strong>+18%</strong> volumetric flush</span>
+              </div>
+              <span class="font-label-caps text-label-caps text-outline">HYDRUS-1D SIM v3</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chronological Health & Agronomic Event Ledger -->
+        <div class="p-6 rounded-2xl bg-surface-container-lowest shadow-sm space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">history_edu</span>
+                <span class="font-label-caps text-label-caps text-outline uppercase tracking-wider">Immutable Agronomic Audit Trail</span>
+              </div>
+              <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold">Tree-02 Lifecycle Ledger &amp; Diagnostic Interlocks</h2>
+            </div>
+            <div class="flex items-center gap-3">
+              <button id="btn-export-ledger" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface-container hover:bg-surface-variant text-on-surface font-label-caps text-label-caps font-bold uppercase transition-colors" type="button">
+                <span class="material-symbols-outlined text-[16px]">file_download</span>
+                <span>Export CSV</span>
+              </button>
+              <button id="btn-panel-dossier" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface-container hover:bg-surface-variant text-on-surface font-label-caps text-label-caps font-bold uppercase transition-colors" type="button">
+                <span class="material-symbols-outlined text-[16px]">picture_as_pdf</span>
+                <span>Capstone Panel Dossier</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Ledger Table -->
+          <div class="overflow-x-auto rounded-xl">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-surface-container text-on-surface-variant font-label-caps text-label-caps uppercase tracking-wider">
+                  <th class="py-3 px-4">Timestamp (GST)</th>
+                  <th class="py-3 px-4">Telemetry Node</th>
+                  <th class="py-3 px-4">Event Classification</th>
+                  <th class="py-3 px-4">Measured Value</th>
+                  <th class="py-3 px-4">Interlock Status / System Action</th>
+                  <th class="py-3 px-4 text-right">Operator / Authority</th>
+                </tr>
+              </thead>
+              <tbody id="ledger-table-body" class="divide-y-0 font-telemetry-md text-body-sm text-on-surface">
+                <!-- Entry 1 -->
+                <tr class="bg-error-container/20 hover:bg-error-container/30 transition-colors">
+                  <td class="py-3 px-4 font-semibold text-error">14:22:18 GST</td>
+                  <td class="py-3 px-4">TRNK-BH-02-SOIL</td>
+                  <td class="py-3 px-4">
+                    <span class="inline-flex items-center gap-1 text-error font-bold">
+                      <span class="w-1.5 h-1.5 rounded-full bg-error animate-ping"></span>
+                      Moisture Interlock Triggered (&lt;10%)
+                    </span>
+                  </td>
+                  <td class="py-3 px-4 font-bold text-error">7.8% VWC</td>
+                  <td class="py-3 px-4">
+                    <span class="px-2 py-0.5 rounded bg-error text-on-error font-label-caps text-label-caps font-bold uppercase">
+                      CRITICAL LOCKOUT
+                    </span>
+                  </td>
+                  <td class="py-3 px-4 text-right font-body-sm text-on-surface-variant">AUTO_DAEMON_P0</td>
+                </tr>
+                <!-- Entry 2 -->
+                <tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+                  <td class="py-3 px-4">12:05:44 GST</td>
+                  <td class="py-3 px-4">DRONE-CV-X4</td>
+                  <td class="py-3 px-4">
+                    <span class="text-tertiary font-semibold">Canopy ExG Chlorosis detected</span>
+                  </td>
+                  <td class="py-3 px-4">ExG: -0.12 (Severe)</td>
+                  <td class="py-3 px-4 text-on-surface-variant">Flagged for Spectral Radiometry Overlay</td>
+                  <td class="py-3 px-4 text-right font-body-sm text-on-surface-variant">OpenCV Edge AI</td>
+                </tr>
+                <!-- Entry 3 -->
+                <tr class="bg-surface-container-low/40 hover:bg-surface-container-low transition-colors">
+                  <td class="py-3 px-4">09:14:02 GST</td>
+                  <td class="py-3 px-4 text-secondary font-medium">Modbus Ping Retried (Timeout 450ms)</td>
+                  <td class="py-3 px-4">ACK 2nd Try</td>
+                  <td class="py-3 px-4 text-secondary">Packet Resent // RS485 CRC OK</td>
+                  <td class="py-3 px-4 text-secondary font-semibold">Hardware Watchdog</td>
+                  <td class="py-3 px-4 text-right font-body-sm text-on-surface-variant">Hardware Watchdog</td>
+                </tr>
+                <!-- Entry 4 -->
+                <tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+                  <td class="py-3 px-4">Yesterday 18:30</td>
+                  <td class="py-3 px-4">HUB-DXB-RS485</td>
+                  <td class="py-3 px-4">RS485 Bus Health Check</td>
+                  <td class="py-3 px-4">Baud 115200 / 0 Err</td>
+                  <td class="py-3 px-4 text-on-surface-variant">Routine Integrity Confirmed</td>
+                  <td class="py-3 px-4 text-right font-body-sm text-on-surface-variant">Supervisor Daemon</td>
+                </tr>
+                <!-- Entry 5 -->
+                <tr class="bg-surface-container-low/40 hover:bg-surface-container-low transition-colors">
+                  <td class="py-3 px-4">72h ago (08:00)</td>
+                  <td class="py-3 px-4 text-primary font-medium">VFD-PUMP-04</td>
+                  <td class="py-3 px-4">Last Scheduled Dosing Run</td>
+                  <td class="py-3 px-4">15.0 L @ 2.1 Bar</td>
+                  <td class="py-3 px-4 text-primary font-semibold">Sequence Completed Successfully</td>
+                  <td class="py-3 px-4 text-right font-body-sm text-on-surface-variant">Eng. Fatima (Auth #402)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Ledger Pagination -->
+          <div class="flex flex-col sm:flex-row items-center justify-between text-body-sm font-telemetry-md text-on-surface-variant pt-2">
+            <span>Showing recent verified telemetry events</span>
+            <div class="flex items-center gap-2 mt-2 sm:mt-0">
+              <button class="px-2.5 py-1 rounded bg-surface-container text-on-surface hover:bg-surface-variant" type="button">Previous</button>
+              <span class="px-2 py-1 rounded bg-primary text-on-primary font-bold">1</span>
+              <button class="px-2.5 py-1 rounded bg-surface-container text-on-surface hover:bg-surface-variant" type="button">2</button>
+              <button class="px-2.5 py-1 rounded bg-surface-container text-on-surface hover:bg-surface-variant" type="button">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- VIEW 3: CANOPY VISION & OPENCV LAB (#canopy-vision-opencv) -->
+      <!-- ============================================================ -->
+      <div id="view-canopy-vision-opencv" class="spa-view p-4 sm:p-6 lg:p-8 max-w-[1720px] mx-auto w-full space-y-6">
+        <!-- Lab Header -->
+        <header class="flex flex-col xl:flex-row xl:items-end justify-between gap-space-md pb-space-sm">
+          <div class="space-y-space-xs">
+            <div class="flex items-center gap-space-xs">
+              <a class="font-label-caps text-label-caps text-primary hover:text-primary-container transition-colors uppercase font-bold flex items-center gap-1" data-path="dashboard-overview" href="#dashboard-overview">
+                <span class="material-symbols-outlined text-[14px]">arrow_back</span>
+                Dashboard Overview
+              </a>
+              <span class="text-outline-variant font-body-sm">/</span>
+              <span class="font-body-sm text-body-sm text-on-surface-variant">Al Ain Plantation</span>
+              <span class="text-outline-variant font-body-sm">&gt;</span>
+              <span class="font-body-sm text-body-sm text-on-surface-variant">Sector 4</span>
+              <span class="text-outline-variant font-body-sm">&gt;</span>
+              <span class="font-telemetry-md text-body-sm text-primary font-semibold">Optical Telemetry Lab</span>
+            </div>
+            <div class="flex flex-wrap items-baseline gap-space-md">
+              <h1 class="font-headline-xl text-headline-xl text-on-surface font-bold tracking-tight">Canopy Vision &amp; OpenCV Edge Phenotyping Lab</h1>
+              <span class="font-label-caps text-label-caps bg-surface-container-high text-on-surface-variant px-space-sm py-1 rounded font-bold">MAST-OPTIC-4K-DXB</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-space-sm flex-wrap">
+            <div class="flex items-center gap-space-xs bg-secondary-container text-on-secondary-container px-space-md py-2 rounded-xl shadow-sm">
+              <span class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span>
+              <div class="font-telemetry-md text-body-sm">
+                <span class="font-bold">Edge TPU Coral Accelerator Active</span>
+                <span class="text-on-secondary-container/80 text-body-sm ml-1.5 font-normal">(18.2ms inference • 30 FPS)</span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Mast Camera Deep-Dive Viewport & Filter Lab -->
+        <section class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
+          <!-- Top Control Bar -->
+          <div class="px-space-md py-3 bg-surface-container-low flex flex-wrap items-center justify-between gap-space-md">
+            <!-- Interactive Filter Switcher Tabs -->
+            <div class="inline-flex p-1 bg-surface-container rounded-lg gap-1 flex-wrap" id="filter-tabs">
+              <button class="tab-btn px-space-md py-1.5 rounded-md font-label-caps text-label-caps font-bold transition-all bg-primary text-on-primary shadow-sm flex items-center gap-1.5" data-filter="rgb" type="button">
+                <span class="material-symbols-outlined text-[16px]">videocam</span>
+                <span>Raw RGB Optical (4K)</span>
+              </button>
+              <button class="tab-btn px-space-md py-1.5 rounded-md font-label-caps text-label-caps font-bold transition-all text-on-surface-variant hover:text-on-surface flex items-center gap-1.5" data-filter="hsv" type="button">
+                <span class="material-symbols-outlined text-[16px]">filter_alt</span>
+                <span>HSV Chlorosis Frond Mask</span>
+              </button>
+              <button class="tab-btn px-space-md py-1.5 rounded-md font-label-caps text-label-caps font-bold transition-all text-on-surface-variant hover:text-on-surface flex items-center gap-1.5" data-filter="exg" type="button">
+                <span class="material-symbols-outlined text-[16px]">grid_view</span>
+                <span>Excess Green (ExG) / Vegetation Index Heatmap</span>
+              </button>
+            </div>
+
+            <!-- Visual Comparison & Navigation Tools -->
+            <div class="flex items-center gap-space-xs flex-wrap">
+              <div class="flex items-center bg-surface-container p-1 rounded-lg text-on-surface-variant text-label-caps font-label-caps">
+                <button class="px-space-sm py-1 rounded bg-surface-container-lowest text-primary font-bold shadow-sm transition-colors flex items-center gap-1" id="toggle-grid" type="button">
+                  <span class="material-symbols-outlined text-[16px]">grid_on</span>
+                  <span class="hidden sm:inline">Agronomic Grid</span>
+                </button>
+                <button class="px-space-sm py-1 rounded bg-surface-container-lowest text-primary font-bold shadow-sm transition-colors flex items-center gap-1" id="toggle-split" type="button">
+                  <span class="material-symbols-outlined text-[16px]">splitscreen</span>
+                  <span>Split Comparison</span>
+                </button>
+              </div>
+              <div class="flex items-center bg-surface-container p-1 rounded-lg text-on-surface-variant">
+                <button class="p-1 rounded hover:bg-surface-container-highest" id="zoom-in" title="Zoom In" type="button">
+                  <span class="material-symbols-outlined text-[18px]">zoom_in</span>
+                </button>
+                <span class="px-2 font-telemetry-md text-body-sm font-semibold" id="zoom-level">100%</span>
+                <button class="p-1 rounded hover:bg-surface-container-highest" id="zoom-out" title="Zoom Out" type="button">
+                  <span class="material-symbols-outlined text-[18px]">zoom_out</span>
+                </button>
+                <button class="p-1 rounded hover:bg-surface-container-highest" id="zoom-reset" title="Reset Frame" type="button">
+                  <span class="material-symbols-outlined text-[18px]">center_focus_strong</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Main Optical Viewport Canvas Area -->
+          <div class="relative w-full h-[580px] bg-inverse-surface overflow-hidden select-none" id="viewport-container">
+            <!-- Base Underlay Optical Imagery Target for Pan/Zoom -->
+            <div class="absolute inset-0 transition-transform duration-100 ease-out origin-center" id="viewport-pan-target">
+              <!-- Raw Feed Image -->
+              <div class="absolute inset-0 bg-cover bg-center transition-opacity duration-300 opacity-100" id="view-rgb" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAc2vzI055GglNTcjBQhK6KhJJqDu482pZWXDnzUhH2uljcRAqCIg0cl6IseebF0b5HZYvtVc8YjY3iXA_dfHGQHJmEAx75a3O1PUsWSr82nNbIwzGKGVlmoGyA43ssyDN8OjBh-OMM48YMi7rrQukgIlqBkV6iR_Q7HXtJk0ZZ518qBwhj0h-NJFBiQdu66OjmDO7MEza-g2mU36Bn8ikgv05nIR2dK2bSnPxg7ljmMkWy6YzdgXMv')"></div>
+              
+              <!-- HSV Frond Mask Image Layer -->
+              <div class="absolute inset-0 bg-cover bg-center transition-opacity duration-300 opacity-0 mix-blend-screen" id="view-hsv" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCMYIsbDU1PRkVb4OTJdgP8gDjgHWb-rAAp8Id3wBG2FNXmKkT4k1UY0DzTfIGTwhnlJS6cjd5FfynJVME3QSBaJ6rKgOwV6Ux47S4lFIolStNIqm9X4B2v1kj8zi9P769TFuAGHoVLHFCLp7_cE865yhogcRxqRBgFoaYRxOifQAbcVvR8FUnY00ULbGnWbsGWwhpH_k5gU6-YB0LXEJZbakeZcg0vtv748Z9uRA7Ps2oip6G5iPMh')"></div>
+              
+              <!-- ExG Heatmap Layer -->
+              <div class="absolute inset-0 bg-cover bg-center transition-opacity duration-300 opacity-0 mix-blend-color-dodge" id="view-exg" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDVngVgek2WpgDO9vu8C1Sg4IsqriWVvcGuZ3OipJG-Gn20MK836Lv3guRsazrDVggE2E4we5bj54lHJmgWMWqJVyQDJl0hZstVNNIsG8z2zNn4jfQwgKtiaA-MlqySZtWJ5LB0a-3ySnte8slKRCXTaLeJdGcgdfQ-zahWTUF_-mf30YElCSuteOoWsUqltmoa6Z37C_enQEOQkY8nPGx2fliplBiZab8TdItxsoZs9Pt6tiPxvUqC')"></div>
+              
+              <!-- Split-Slider Overlayer Mask (When active) -->
+              <div class="absolute inset-y-0 left-0 overflow-hidden shadow-2xl transition-all" id="split-layer" style="width: 50%;">
+                <div class="w-[2000px] h-full relative">
+                  <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuANxDw8y2XSR4FO0ncOrkYz13FUVfvoEGQn349zckVkg4-saJmVE6mMgLnXWgWE_zxOBsMrXYN7reFG17oyzvC9D-uk4_25m_amNib1aKFSt0ug4WHfAePNBOcuPiyg6pobFxgFJzF4ZEnUuWDz_hVyF5w1-4M5iCUb_Gc9584jWfyLZh0gOnf2sUzTU9h6TvQJ9M_zxomBFBz8vU1eD5uqyNNg0md7elfREyDSZVEdezbs94dKnIJ_')"></div>
+                </div>
+                <!-- Split Divider Line -->
+                <div class="absolute top-0 right-0 bottom-0 w-1 bg-surface-container-lowest cursor-ew-resize flex items-center justify-center">
+                  <div class="w-7 h-7 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-lg -mr-[12px]">
+                    <span class="material-symbols-outlined text-[16px]">code</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Synthetic Grid Overlay -->
+              <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-40" id="agro-grid" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <pattern height="60" id="grid-pattern" patternunits="userSpaceOnUse" width="60">
+                    <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(255, 255, 255, 0.2)" stroke-width="0.8"></path>
+                    <circle cx="0" cy="0" fill="rgba(255, 255, 255, 0.4)" r="1.5"></circle>
+                  </pattern>
+                </defs>
+                <rect fill="url(#grid-pattern)" height="100%" width="100%"></rect>
+              </svg>
+
+              <!-- Bounding Boxes & AI Telemetry Anchors -->
+              <!-- Tree-01 Nominal Box -->
+              <div class="absolute top-[28%] left-[16%] w-[240px] h-[240px] pointer-events-none">
+                <div class="w-full h-full rounded-xl bg-primary-container/10 p-2 flex flex-col justify-between shadow-[0_0_15px_rgba(45,106,79,0.35)]">
+                  <div class="flex items-center justify-between">
+                    <span class="bg-primary text-on-primary font-label-caps text-label-caps px-2 py-0.5 rounded shadow">TREE-01 [NOMINAL]</span>
+                    <span class="bg-surface-container-lowest/90 text-primary font-telemetry-md text-body-sm px-1.5 py-0.5 rounded font-bold">92.4%</span>
+                  </div>
+                  <div class="text-right">
+                    <span class="bg-inverse-surface/85 text-surface-variant font-label-caps text-label-caps px-2 py-0.5 rounded tracking-wide">SPAD: 44.8 • Frond Ang: +2.1°</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tree-02 Stress Alert Box -->
+              <div class="absolute top-[32%] left-[46%] w-[250px] h-[250px] pointer-events-none animate-pulse">
+                <div class="w-full h-full rounded-xl bg-error/15 p-2 flex flex-col justify-between shadow-[0_0_24px_rgba(186,26,26,0.55)]">
+                  <div class="flex items-center justify-between">
+                    <span class="bg-error text-on-error font-label-caps text-label-caps px-2 py-0.5 rounded font-bold flex items-center gap-1 shadow">
+                      <span class="material-symbols-outlined text-[12px]">warning</span>
+                      TREE-02 [CHLOROSIS]
+                    </span>
+                    <span class="bg-error text-on-error font-telemetry-md text-body-sm px-1.5 py-0.5 rounded font-bold">86.4% CONF</span>
+                  </div>
+                  <div class="space-y-1">
+                    <div class="bg-inverse-surface/90 text-on-error-container font-label-caps text-label-caps px-2 py-1 rounded flex justify-between">
+                      <span>DROOP: +12.4°</span>
+                      <span class="text-tertiary-fixed font-bold">DEFICIT ALERT</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tree-03 Nominal Box -->
+              <div class="absolute top-[26%] left-[73%] w-[230px] h-[230px] pointer-events-none">
+                <div class="w-full h-full rounded-xl bg-primary-container/10 p-2 flex flex-col justify-between shadow-[0_0_15px_rgba(45,106,79,0.35)]">
+                  <div class="flex items-center justify-between">
+                    <span class="bg-primary text-on-primary font-label-caps text-label-caps px-2 py-0.5 rounded shadow">TREE-03 [NOMINAL]</span>
+                    <span class="bg-surface-container-lowest/90 text-primary font-telemetry-md text-body-sm px-1.5 py-0.5 rounded font-bold">94.1%</span>
+                  </div>
+                  <div class="text-right">
+                    <span class="bg-inverse-surface/85 text-surface-variant font-label-caps text-label-caps px-2 py-0.5 rounded tracking-wide">SPAD: 42.1 • Frond Ang: -0.8°</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Telemetry HUD Bottom Bar Overlay -->
+            <div class="absolute bottom-3 left-4 right-4 flex items-center justify-between pointer-events-none flex-wrap gap-2">
+              <div class="flex items-center gap-2 pointer-events-auto bg-inverse-surface/90 backdrop-blur-md px-3 py-1.5 rounded-lg text-inverse-on-surface">
+                <span class="material-symbols-outlined text-primary-fixed text-[16px]">sensors</span>
+                <span class="font-label-caps text-label-caps text-surface-variant uppercase">MAST HEIGHT: 14.5m</span>
+                <span class="text-outline">•</span>
+                <span class="font-label-caps text-label-caps text-surface-variant uppercase">AZIMUTH: 184° S</span>
+                <span class="text-outline">•</span>
+                <span class="font-telemetry-md text-body-sm text-secondary-fixed">EXPOSURE: 1/800s f/4.0</span>
+              </div>
+              <div class="flex items-center gap-2 pointer-events-auto bg-inverse-surface/90 backdrop-blur-md px-3 py-1.5 rounded-lg text-inverse-on-surface">
+                <div class="w-2 h-2 rounded-full bg-secondary-fixed animate-ping"></div>
+                <span class="font-telemetry-md text-body-sm text-surface-container-lowest">RTSP 3840x2160 @ 30.12 fps</span>
+                <span class="font-label-caps text-label-caps bg-primary text-on-primary px-1.5 py-0.5 rounded font-bold">H.265 HW</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Viewport Interactive Slider Handle for Split Mode -->
+          <div class="px-space-md py-2.5 bg-surface-container-low flex items-center gap-space-md text-on-surface-variant text-body-sm font-body-sm">
+            <span class="font-label-caps text-label-caps text-on-surface uppercase font-semibold">Split Comparison Slider:</span>
+            <input class="flex-1 accent-primary h-1.5 bg-surface-container-highest rounded-lg cursor-pointer" id="split-slider-control" max="100" min="0" type="range" value="50"/>
+            <div class="flex items-center gap-space-sm font-telemetry-md text-body-sm">
+              <span class="text-primary font-bold">RAW RGB [0%]</span>
+              <span class="text-outline">/</span>
+              <span class="text-tertiary-container font-bold">SPECTRAL EXG [100%]</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Computer Vision AI Diagnostics & Confidence Metrics -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+          <!-- Card 1: Tree-02 Foliage Stress Index -->
+          <div class="lg:col-span-4 bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-1 bg-error"></div>
+            <div class="space-y-space-sm">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full bg-error"></span>
+                  <span class="font-label-caps text-label-caps text-on-surface-variant uppercase font-bold tracking-wider">Target Phenotype Diagnostic</span>
+                </div>
+                <span class="font-label-caps text-label-caps bg-error-container text-on-error-container px-2 py-0.5 rounded font-bold">ACTION REQUIRED</span>
+              </div>
+              <div>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Tree-02 Foliage Stress Index</h3>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Central Quadrant Sector 4-B • Mature Medjool</p>
+              </div>
+              <div class="bg-surface-container-low p-space-md rounded-lg space-y-space-xs">
+                <div class="flex items-baseline justify-between">
+                  <span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Chlorosis &amp; Wilting Conf.</span>
+                  <span class="font-telemetry-lg text-telemetry-lg text-error font-bold">86.4%</span>
+                </div>
+                <!-- Confidence Bar -->
+                <div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+                  <div class="bg-error h-full rounded-full" style="width: 86.4%;"></div>
+                </div>
+                <div class="flex justify-between font-label-caps text-label-caps text-on-surface-variant pt-1">
+                  <span>Threshold: 60.0%</span>
+                  <span class="text-error font-bold">+26.4% Elevated</span>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-space-xs">
+                <div class="bg-surface-container-low p-space-sm rounded-lg">
+                  <span class="font-label-caps text-label-caps text-on-surface-variant block uppercase">Frond Droop Angle</span>
+                  <span class="font-telemetry-md text-headline-sm text-tertiary-container font-bold">+12.4°</span>
+                  <span class="font-body-sm text-body-sm text-on-surface-variant block">Norm: ±3.5°</span>
+                </div>
+                <div class="bg-surface-container-low p-space-sm rounded-lg">
+                  <span class="font-label-caps text-label-caps text-on-surface-variant block uppercase">Moisture Deficit</span>
+                  <span class="font-telemetry-md text-headline-sm text-error font-bold">-38.2%</span>
+                  <span class="font-body-sm text-body-sm text-error block">Critical Depletion</span>
+                </div>
+              </div>
+            </div>
+            <div class="pt-space-md mt-space-sm flex items-center justify-between">
+              <span class="font-body-sm text-body-sm text-on-surface-variant">Recommended micro-dose: +18L</span>
+              <button id="btn-queue-irrigation" class="px-space-md py-1.5 rounded-lg bg-primary text-on-primary font-label-caps text-label-caps uppercase font-bold hover:bg-primary-container transition-colors shadow-sm" type="button">
+                Queue Irrigation
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 2: Crown Health Metrics for Tree-01 & Tree-03 -->
+          <div class="lg:col-span-4 bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-1 bg-primary"></div>
+            <div class="space-y-space-sm">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+                  <span class="font-label-caps text-label-caps text-on-surface-variant uppercase font-bold tracking-wider">Control Group Biomarkers</span>
+                </div>
+                <span class="font-label-caps text-label-caps bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded font-bold">NOMINAL VIGOUR</span>
+              </div>
+              <div>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Crown Health: Tree-01 &amp; Tree-03</h3>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Peripheral Ring Baseline Phenotyping</p>
+              </div>
+              <!-- Tree-01 Strip -->
+              <div class="bg-surface-container-low p-space-sm rounded-lg space-y-1">
+                <div class="flex items-center justify-between">
+                  <span class="font-telemetry-md text-body-md font-bold text-on-surface">Tree-01 (Khalas)</span>
+                  <span class="font-telemetry-md text-body-sm text-primary font-bold">92.0% Vigour</span>
+                </div>
+                <div class="flex items-center justify-between text-on-surface-variant font-telemetry-md text-body-sm">
+                  <span>SPAD Chlorophyll Index:</span>
+                  <span class="text-on-surface font-bold">44.8 SPAD</span>
+                </div>
+                <div class="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-primary h-full rounded-full" style="width: 92%;"></div>
+                </div>
+              </div>
+              <!-- Tree-03 Strip -->
+              <div class="bg-surface-container-low p-space-sm rounded-lg space-y-1">
+                <div class="flex items-center justify-between">
+                  <span class="font-telemetry-md text-body-md font-bold text-on-surface">Tree-03 (Fardh)</span>
+                  <span class="font-telemetry-md text-body-sm text-primary font-bold">94.0% Vigour</span>
+                </div>
+                <div class="flex items-center justify-between text-on-surface-variant font-telemetry-md text-body-sm">
+                  <span>SPAD Chlorophyll Index:</span>
+                  <span class="text-on-surface font-bold">42.1 SPAD</span>
+                </div>
+                <div class="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-primary h-full rounded-full" style="width: 94%;"></div>
+                </div>
+              </div>
+              <div class="p-space-xs rounded bg-surface-container text-on-surface-variant font-label-caps text-label-caps flex items-center justify-between">
+                <span>CANOPY ASYMMETRY DELTA: 1.2%</span>
+                <span class="text-primary font-bold">STABLE</span>
+              </div>
+            </div>
+            <div class="pt-space-md mt-space-sm flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+              <span>Continuous edge inference stream</span>
+              <span class="text-primary font-telemetry-md font-semibold">0 Anomaly Triggers</span>
+            </div>
+          </div>
+
+          <!-- Card 3: Model Hyperparameters & Pipeline -->
+          <div class="lg:col-span-4 bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-1 bg-surface-variant"></div>
+            <div class="space-y-space-sm">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-primary text-[18px]">memory</span>
+                  <span class="font-label-caps text-label-caps text-on-surface-variant uppercase font-bold tracking-wider">Pipeline Architecture</span>
+                </div>
+                <span class="font-label-caps text-label-caps bg-surface-container text-on-surface-variant px-2 py-0.5 rounded font-mono font-bold">OPENCV 4.9-ARM</span>
+              </div>
+              <div>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">YOLOv8-AGRI-EXP4</h3>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Quantized INT8 TensorRT Engine</p>
+              </div>
+              <div class="space-y-2">
+                <!-- HSV Threshold Spec -->
+                <div class="bg-surface-container-low p-space-sm rounded-lg">
+                  <div class="flex justify-between items-center mb-1">
+                    <span class="font-label-caps text-label-caps text-on-surface font-bold">HSV COLORSPACE THRESHOLD</span>
+                    <span class="font-label-caps text-label-caps bg-secondary-container text-on-secondary-container px-1 rounded font-bold">FROND SEG</span>
+                  </div>
+                  <div class="font-telemetry-md text-body-sm text-on-surface-variant space-y-0.5">
+                    <div class="flex justify-between font-mono">
+                      <span>H [Hue Window]:</span>
+                      <span class="text-on-surface font-semibold">35 — 85 deg</span>
+                    </div>
+                    <div class="flex justify-between font-mono">
+                      <span>S [Saturation]:</span>
+                      <span class="text-on-surface font-semibold">40 — 255</span>
+                    </div>
+                    <div class="flex justify-between font-mono">
+                      <span>V [Value/Lum]:</span>
+                      <span class="text-on-surface font-semibold">50 — 255</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- ExG Mathematical Transform Spec -->
+                <div class="bg-surface-container-low p-space-sm rounded-lg">
+                  <div class="flex justify-between items-center mb-1">
+                    <span class="font-label-caps text-label-caps text-on-surface font-bold">EXCESS GREEN FORMULATION</span>
+                    <span class="font-label-caps text-label-caps text-tertiary-fixed-variant font-mono font-bold">VEG-INDEX</span>
+                  </div>
+                  <div class="bg-inverse-surface text-secondary-fixed p-2 rounded font-mono text-body-sm text-center tracking-wide font-bold">
+                    ExG = 2G − R − B
+                  </div>
+                  <div class="flex justify-between font-label-caps text-label-caps text-on-surface-variant mt-1">
+                    <span>Norm Bounds: [-2.0, +2.0]</span>
+                    <span>Otsu Threshold: 0.18</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pt-space-md mt-space-sm flex items-center justify-between text-on-surface-variant font-label-caps text-label-caps">
+              <span>WEIGHTS: v8_agri_dxb_q8.tflite</span>
+              <span class="text-primary font-bold">SYNCED</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Lab Bottom Action Bar -->
+        <section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col md:flex-row items-center justify-between gap-space-md">
+          <div class="flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-primary text-[24px]">terminal</span>
+            <div>
+              <span class="font-headline-sm text-body-lg text-on-surface font-bold block">Edge Vision Operational Routines</span>
+              <span class="font-body-sm text-body-sm text-on-surface-variant">Instantaneous capture triggers bypass normal telemetry batch buffer</span>
+            </div>
+          </div>
+          <div class="flex flex-wrap items-center gap-space-sm w-full md:w-auto">
+            <button class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-space-xs px-space-md py-2.5 rounded-lg bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-caps text-body-sm uppercase font-bold transition-all active:scale-95 shadow-sm" id="btn-snapshot" type="button">
+              <span class="material-symbols-outlined text-[18px]">photo_camera</span>
+              <span>Capture High-Res Raw Snapshot</span>
+            </button>
+            <button class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-space-xs px-space-md py-2.5 rounded-lg bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-caps text-body-sm uppercase font-bold transition-all active:scale-95 shadow-sm" id="btn-batch" type="button">
+              <span class="material-symbols-outlined text-[18px]">psychology</span>
+              <span>Run Batch Inference</span>
+            </button>
+            <button class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-space-xs px-space-md py-2.5 rounded-lg bg-primary text-on-primary hover:bg-primary-container font-label-caps text-body-sm uppercase font-bold transition-all active:scale-95 shadow-md" id="btn-export" type="button">
+              <span class="material-symbols-outlined text-[18px]">download</span>
+              <span>Export Segmentation Masks (.PNG)</span>
+            </button>
+          </div>
+        </section>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- VIEW 4: PRECISION FLUID DOSING DEDICATED VIEW (#precision-fluid-dosing) -->
+      <!-- ============================================================ -->
+      <div id="view-precision-fluid-dosing" class="spa-view p-4 sm:p-6 lg:p-8 max-w-[1200px] mx-auto w-full space-y-6">
+        <div class="flex items-center justify-between pb-2 border-b border-surface-container">
+          <div>
+            <span class="font-label-caps text-label-caps text-outline uppercase font-semibold">Closed-Loop Solenoid Manifold Control</span>
+            <h1 class="font-headline-xl text-headline-xl font-bold text-on-surface mt-1">Sector 4 Precision Fluid Dosing Terminal</h1>
+          </div>
+          <span class="px-space-md py-1.5 bg-secondary-container text-on-secondary-container rounded-full font-label-caps text-label-caps font-bold">
+            RELAY INTERLOCK ARMED
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Left Control Panel (7 cols) -->
+          <div class="lg:col-span-7 bg-surface-container-lowest p-6 rounded-2xl shadow-sm space-y-6">
+            <!-- Target Node Alert -->
+            <div class="p-space-md rounded-xl bg-error-container/40 flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+              <div class="flex items-start gap-space-sm">
+                <div class="w-9 h-9 rounded-lg bg-error/10 text-error flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-[20px]">warning</span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="font-headline-sm text-body-lg font-bold text-on-surface dosing-target-tree">Tree-02 | Barhi</span>
+                    <span class="font-label-caps text-label-caps bg-surface-container-highest text-on-surface-variant px-1.5 py-0.5 rounded font-bold">SLAVE 0x02</span>
+                  </div>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">Subterranean Sector 4A Root Zone Probe [Depth: -60cm]</p>
+                </div>
+              </div>
+              <div class="sm:text-right shrink-0 bg-surface-container-lowest/80 sm:bg-transparent p-space-xs sm:p-0 rounded">
+                <span class="font-label-caps text-label-caps text-error font-bold uppercase tracking-wider block">CRITICAL MOISTURE</span>
+                <span class="font-telemetry-lg text-telemetry-lg font-bold text-error tracking-tight dosing-target-vwc">7.8% VWC</span>
+                <span class="font-body-sm text-[10px] text-on-surface-variant block">Optimal Band: 18-24%</span>
+              </div>
+            </div>
+
+            <!-- Conduit Selector -->
+            <div class="space-y-space-xs">
+              <div class="flex items-center justify-between">
+                <label class="font-label-caps text-label-caps uppercase tracking-wider text-outline font-semibold">Select Fluid Manifold Conduit</label>
+                <span class="font-label-caps text-label-caps text-primary font-semibold">SOLENOID BANK 01 ACTIVE</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+                <!-- Path A -->
+                <button class="fluid-card text-left p-space-md rounded-xl bg-secondary-container/30 ring-2 ring-primary hover:bg-secondary-container/50 transition-all duration-150 relative group cursor-pointer flex flex-col justify-between h-36 btn-select-path" data-path="path-a" type="button">
+                  <div class="w-full flex items-start justify-between">
+                    <div class="flex items-center gap-space-sm">
+                      <div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[18px]">water_drop</span>
+                      </div>
+                      <div>
+                        <span class="font-label-caps text-label-caps text-primary block uppercase font-bold">Path A: Solenoid 1</span>
+                        <span class="font-headline-sm text-body-lg font-bold text-on-surface">Clean RO Water</span>
+                      </div>
+                    </div>
+                    <span class="fluid-check-badge w-5 h-5 rounded-full bg-primary text-on-primary flex items-center justify-center">
+                      <span class="material-symbols-outlined text-[14px]">check</span>
+                    </span>
+                  </div>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant pr-2">
+                    Reverse Osmosis permeate line calibrated for rapid soil hydration, salinity flushing, and salt leaching.
+                  </p>
+                </button>
+                <!-- Path B -->
+                <button class="fluid-card text-left p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-all duration-150 relative group cursor-pointer flex flex-col justify-between h-36 btn-select-path" data-path="path-b" type="button">
+                  <div class="w-full flex items-start justify-between">
+                    <div class="flex items-center gap-space-sm">
+                      <div class="w-8 h-8 rounded-lg bg-surface-container text-tertiary flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[18px]">science</span>
+                      </div>
+                      <div>
+                        <span class="font-label-caps text-label-caps text-tertiary block uppercase font-bold">Path B: Solenoid 2</span>
+                        <span class="font-headline-sm text-body-lg font-bold text-on-surface">Nutrient Chelate</span>
+                      </div>
+                    </div>
+                    <span class="fluid-check-badge w-5 h-5 rounded-full bg-surface-variant text-transparent flex items-center justify-center">
+                      <span class="material-symbols-outlined text-[14px]">check</span>
+                    </span>
+                  </div>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant pr-2">
+                    Enriched liquid NPK formulation with Fe-EDDHA Iron chelate for urgent canopy chlorosis reversal.
+                  </p>
+                </button>
+              </div>
+            </div>
+
+            <!-- Duration & Flow Slider -->
+            <div class="p-space-md rounded-xl bg-surface-container-low space-y-space-md">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="font-label-caps text-label-caps text-outline uppercase font-semibold block">Pulse Cycle Duration</span>
+                  <span class="font-headline-sm text-body-lg font-bold text-on-surface">Digital Valve Firmware Timer</span>
+                </div>
+                <div class="text-right">
+                  <span class="font-telemetry-lg text-headline-xl font-bold text-primary timer-display-val">25<span class="text-body-lg font-normal text-on-surface-variant ml-0.5">sec</span></span>
+                </div>
+              </div>
+              <div class="space-y-space-xs">
+                <input class="w-full h-2 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none dosing-duration-slider" max="60" min="5" step="1" type="range" value="25"/>
+                <div class="flex justify-between font-label-caps text-label-caps text-outline px-0.5">
+                  <span>05s (MIN)</span>
+                  <span>15s</span>
+                  <span>25s (RECOMMENDED)</span>
+                  <span>45s</span>
+                  <span class="text-error font-semibold">60s (HARD CAP)</span>
+                </div>
+              </div>
+              <div class="p-space-sm rounded-lg bg-surface-container-lowest flex items-center justify-between">
+                <div class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant">
+                  <span class="material-symbols-outlined text-primary text-[18px]">calculate</span>
+                  <span>Projected Output:</span>
+                  <span class="font-telemetry-md font-bold text-on-surface calc-volume-val">12.5 Liters</span>
+                </div>
+                <span class="font-label-caps text-label-caps text-outline font-medium">DISCHARGE: 0.50 L/SEC @ 2.1 BAR</span>
+              </div>
+            </div>
+
+            <!-- Safety Authorization & Action -->
+            <div class="space-y-4">
+              <label class="flex items-start gap-space-sm cursor-pointer select-none group p-3 bg-surface-container-low rounded-xl">
+                <input class="mt-1 w-4 h-4 rounded text-primary focus:ring-0 focus:ring-offset-0 bg-surface-container border-outline-variant cursor-pointer accent-primary dosing-auth-checkbox" type="checkbox"/>
+                <span class="font-body-sm text-body-sm text-on-surface leading-tight">
+                  I confirm sector line pressure is stabilized at <strong>2.1 Bar</strong> and explicitly authorize the high-speed pneumatic solenoid pulse under <strong>UAE GS-402 Agritech Safety Directives</strong>.
+                </span>
+              </label>
+
+              <button class="btn-execute-dosing w-full py-3.5 px-space-md rounded-lg bg-outline text-surface-variant font-label-caps text-body-sm font-bold uppercase tracking-wider flex items-center justify-center gap-space-xs transition-all duration-200 cursor-not-allowed opacity-60 shadow-sm" disabled="" type="button">
+                <span class="material-symbols-outlined text-[20px]">bolt</span>
+                <span>EXECUTE DOSING ROUTINE</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Telemetry & Hydraulics Summary (5 cols) -->
+          <div class="lg:col-span-5 space-y-6">
+            <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm space-y-4">
+              <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">Hydraulic Line Status</h3>
+              <div class="space-y-3 font-telemetry-md text-body-sm">
+                <div class="flex justify-between p-2.5 bg-surface-container-low rounded-lg">
+                  <span class="text-on-surface-variant">Main Header Pressure:</span>
+                  <span class="font-bold text-primary val-pressure">2.10 Bar</span>
+                </div>
+                <div class="flex justify-between p-2.5 bg-surface-container-low rounded-lg">
+                  <span class="text-on-surface-variant">Line Flow Rate:</span>
+                  <span class="font-bold text-on-surface">0.50 L/s</span>
+                </div>
+                <div class="flex justify-between p-2.5 bg-surface-container-low rounded-lg">
+                  <span class="text-on-surface-variant">VFD Pump Loop:</span>
+                  <span class="font-bold text-secondary">PASSIVE FAIL-SAFE ACTIVE</span>
+                </div>
+                <div class="flex justify-between p-2.5 bg-surface-container-low rounded-lg">
+                  <span class="text-on-surface-variant">Analog Interlock Latency:</span>
+                  <span class="font-bold text-primary">&lt; 120 ms</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm space-y-3">
+              <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">Agronomic Guidelines</h3>
+              <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                Date palms in the UAE hyper-arid climate suffer rapid permanent wilting once soil moisture drops below 12.0% VWC. The automated closed-loop solenoid manifold bypasses batch buffers to deliver root-targeted fertigation micro-bursts without desert surface evaporation.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- VIEW 5: ENVIRONMENTAL & SOIL TELEMETRY (#environmental-soil-telemetry) -->
+      <!-- ============================================================ -->
+      <div id="view-environmental-soil-telemetry" class="spa-view p-4 sm:p-6 lg:p-8 max-w-[1600px] mx-auto w-full space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-surface-container">
+          <div>
+            <div class="flex items-center gap-2 font-label-caps text-label-caps uppercase tracking-wider text-outline">
+              <span>Al Ain Sector 4</span>
+              <span>/</span>
+              <span class="text-primary font-bold">Sub-Surface Telemetry Mesh</span>
+            </div>
+            <h1 class="font-headline-xl text-headline-xl font-bold text-on-surface mt-1">Environmental &amp; Soil Physics Matrix</h1>
+          </div>
+          <span class="px-space-md py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-caps text-label-caps font-bold">
+            MODBUS RTU 9600-8N1 ACTIVE
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+          <!-- Soil Physics Cards -->
+          <div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm space-y-2">
+            <span class="font-label-caps text-label-caps text-outline uppercase block">Matric Suction Tension</span>
+            <div class="font-telemetry-lg text-headline-xl font-bold text-error">-85.4 kPa</div>
+            <span class="font-body-sm text-body-sm text-error">Stomatal tension critical (&lt;-65 kPa)</span>
+          </div>
+          <div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm space-y-2">
+            <span class="font-label-caps text-label-caps text-outline uppercase block">Soil Hydraulic Conductivity</span>
+            <div class="font-telemetry-lg text-headline-xl font-bold text-on-surface">14.2 cm/hr</div>
+            <span class="font-body-sm text-body-sm text-on-surface-variant">Aeolian Dune Sand Horizon</span>
+          </div>
+          <div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm space-y-2">
+            <span class="font-label-caps text-label-caps text-outline uppercase block">Vapor Pressure Deficit (VPD)</span>
+            <div class="font-telemetry-lg text-headline-xl font-bold text-tertiary">4.85 kPa</div>
+            <span class="font-body-sm text-body-sm text-on-surface-variant">Extreme atmospheric demand</span>
+          </div>
+          <div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm space-y-2">
+            <span class="font-label-caps text-label-caps text-outline uppercase block">Solar Irradiance Flux</span>
+            <div class="font-telemetry-lg text-headline-xl font-bold text-on-surface">985 W/m²</div>
+            <span class="font-body-sm text-body-sm text-secondary">Peak midday radiation</span>
+          </div>
+        </div>
+
+        <!-- Sensor Nodes Topology -->
+        <div class="p-6 rounded-2xl bg-surface-container-lowest shadow-sm space-y-4">
+          <h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">RS-485 Differential Sensor Node Mesh</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="p-4 rounded-xl bg-surface-container-low border border-outline-variant/30 space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="font-telemetry-md font-bold text-on-surface">Slave Probe 0x01</span>
+                <span class="px-2 py-0.5 rounded bg-secondary-container text-primary font-label-caps font-bold">ONLINE</span>
+              </div>
+              <p class="font-body-sm text-on-surface-variant">Tree-01 (Medjool) · FDR Multi-Depth Probe · ACK 12ms</p>
+            </div>
+            <div class="p-4 rounded-xl bg-error-container/20 border border-error/30 space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="font-telemetry-md font-bold text-error">Slave Probe 0x02</span>
+                <span class="px-2 py-0.5 rounded bg-error text-on-error font-label-caps font-bold">TIMEOUT</span>
+              </div>
+              <p class="font-body-sm text-on-surface-variant">Tree-02 (Barhi) · RS485 Differential CRC Fail · Click for Diagnostics</p>
+              <button class="w-full mt-2 py-1.5 bg-error text-on-error rounded font-label-caps text-label-caps uppercase font-bold" data-path="edge-diagnostics">
+                Open Edge Diagnostic Terminal
+              </button>
+            </div>
+            <div class="p-4 rounded-xl bg-surface-container-low border border-outline-variant/30 space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="font-telemetry-md font-bold text-on-surface">Slave Probe 0x03</span>
+                <span class="px-2 py-0.5 rounded bg-secondary-container text-primary font-label-caps font-bold">ONLINE</span>
+              </div>
+              <p class="font-body-sm text-on-surface-variant">Tree-03 (Khalas) · FDR Multi-Depth Probe · ACK 14ms</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- VIEW 6: ACADEMIC PANEL DEFENSE SANDBOX (#academic-panel-defense-sandbox) -->
+      <!-- ============================================================ -->
+      <div id="view-academic-panel-defense-sandbox" class="spa-view p-4 sm:p-6 lg:p-8 max-w-[1600px] mx-auto w-full space-y-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-surface-container">
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-container text-on-primary font-label-caps text-label-caps uppercase tracking-wider mb-1 font-bold">
+              CSIT 321 Capstone — Group 3
+            </div>
+            <h1 class="font-headline-xl text-headline-xl font-bold text-on-surface">Academic Panel Defense Sandbox</h1>
+            <p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+              Interactive scenario injector and architectural defense notes for the Capstone Review Committee.
+            </p>
+          </div>
+        </div>
+
+        <!-- Scenario Injector Cluster -->
+        <div class="p-6 rounded-2xl bg-surface-container-lowest shadow-sm space-y-4">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-[22px]">smart_toy</span>
+            <h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">Live Fault &amp; Anomaly Injection Matrix</h2>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">
+            Click any scenario button below to simulate edge anomalies in real time and evaluate the system's autonomous response:
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+            <!-- Scenario 1: RPW Acoustic -->
+            <button class="btn-inject-scenario p-4 rounded-xl bg-surface-container-low hover:bg-error-container/30 border border-outline-variant/30 text-left transition-all space-y-2 group" data-scenario="rpw_infestation" type="button">
+              <div class="flex items-center justify-between">
+                <span class="p-2 rounded-lg bg-error/10 text-error">
+                  <span class="material-symbols-outlined text-[20px]">pest_control</span>
+                </span>
+                <span class="font-label-caps text-label-caps text-error font-bold uppercase">120 Hz Peak</span>
+              </div>
+              <h3 class="font-headline-sm text-body-lg font-bold text-on-surface group-hover:text-error transition-colors">Acoustic RPW Larvae Spike</h3>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">
+                Injects micro-vibrations from Red Palm Weevil feeding (94.8% confidence on Tree-02).
+              </p>
+            </button>
+
+            <!-- Scenario 2: Hydraulic Blowout -->
+            <button class="btn-inject-scenario p-4 rounded-xl bg-surface-container-low hover:bg-error-container/30 border border-outline-variant/30 text-left transition-all space-y-2 group" data-scenario="hydraulic_rupture" type="button">
+              <div class="flex items-center justify-between">
+                <span class="p-2 rounded-lg bg-error/10 text-error">
+                  <span class="material-symbols-outlined text-[20px]">broken_image</span>
+                </span>
+                <span class="font-label-caps text-label-caps text-error font-bold uppercase">&lt;0.8 Bar</span>
+              </div>
+              <h3 class="font-headline-sm text-body-lg font-bold text-on-surface group-hover:text-error transition-colors">Hydraulic Line Rupture</h3>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">
+                Simulates pipe blowout, dropping pressure to 0.42 Bar and triggering &lt;120ms pump shutdown.
+              </p>
+            </button>
+
+            <!-- Scenario 3: Thermal Shockwave -->
+            <button class="btn-inject-scenario p-4 rounded-xl bg-surface-container-low hover:bg-tertiary-container/30 border border-outline-variant/30 text-left transition-all space-y-2 group" data-scenario="thermal_shock" type="button">
+              <div class="flex items-center justify-between">
+                <span class="p-2 rounded-lg bg-tertiary/10 text-tertiary">
+                  <span class="material-symbols-outlined text-[20px]">local_fire_department</span>
+                </span>
+                <span class="font-label-caps text-label-caps text-tertiary font-bold uppercase">+49.6°C</span>
+              </div>
+              <h3 class="font-headline-sm text-body-lg font-bold text-on-surface group-hover:text-tertiary transition-colors">Desert Thermal Shockwave</h3>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">
+                Surges ambient heat to 49.6°C with 9.8% humidity to evaluate stomatal wilt adaptation.
+              </p>
+            </button>
+
+            <!-- Scenario 4: RS-485 Cable Severance -->
+            <button class="btn-inject-scenario p-4 rounded-xl bg-surface-container-low hover:bg-surface-variant border border-outline-variant/30 text-left transition-all space-y-2 group" data-scenario="rs485_disconnect" type="button">
+              <div class="flex items-center justify-between">
+                <span class="p-2 rounded-lg bg-surface-container text-on-surface">
+                  <span class="material-symbols-outlined text-[20px]">link_off</span>
+                </span>
+                <span class="font-label-caps text-label-caps text-outline font-bold uppercase">Node 0x02</span>
+              </div>
+              <h3 class="font-headline-sm text-body-lg font-bold text-on-surface group-hover:text-primary transition-colors">RS485 Modbus Cable Cut</h3>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">
+                Severs differential pair A+/B-, isolating probe 0x02 into Error 503 fallback mode.
+              </p>
+            </button>
+          </div>
+
+          <div class="pt-2 flex justify-end">
+            <button class="btn-inject-scenario px-4 py-2 bg-primary text-on-primary rounded-lg font-label-caps text-label-caps uppercase font-bold hover:bg-primary-container shadow-sm flex items-center gap-2" data-scenario="normal" type="button">
+              <span class="material-symbols-outlined text-[16px]">restart_alt</span>
+              <span>Reset All Systems to Benchmark Baseline</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Academic Panel Defense Talking Points -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="p-6 rounded-2xl bg-surface-container-lowest shadow-sm space-y-3">
+            <div class="flex items-center gap-2 text-primary font-bold">
+              <span class="material-symbols-outlined text-[22px]">hub</span>
+              <h3 class="font-headline-sm text-headline-sm text-on-surface">RS-485 Modbus in Hyper-Arid Soil</h3>
+            </div>
+            <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Why RS-485 instead of Wi-Fi or LoRaWAN? UAE desert soil exhibits severe radio attenuation and high thermal extremes (up to 60°C ground surface). Differential RS-485 Modbus RTU provides noise immunity across 1.2km runs without battery dependency.
+            </p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-surface-container-lowest shadow-sm space-y-3">
+            <div class="flex items-center gap-2 text-primary font-bold">
+              <span class="material-symbols-outlined text-[22px]">verified_user</span>
+              <h3 class="font-headline-sm text-headline-sm text-on-surface">&lt;120ms Analog Safety Interlock</h3>
+            </div>
+            <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Complies with UAE Agritech Standard GS-402. High-speed hydraulic relays trip independently of cloud/OS software if line pressure drops below 0.8 Bar or exceeds 2.45 Bar, completely eliminating runaway irrigation flooding and root hypoxia.
+            </p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-surface-container-lowest shadow-sm space-y-3">
+            <div class="flex items-center gap-2 text-primary font-bold">
+              <span class="material-symbols-outlined text-[22px]">memory</span>
+              <h3 class="font-headline-sm text-headline-sm text-on-surface">Edge Coral TPU Phenotyping</h3>
+            </div>
+            <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Google Coral Edge TPU executes quantized INT8 YOLOv8 inferences in 18.2ms drawing &lt;2W power from the 12.6V solar SLA battery. Runs frond chlorosis segmentation directly at the masthead without transmitting massive 4K raw video streams over cellular backhaul.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- VIEW 7: HARDWARE DIAGNOSTICS & ERROR 503 (#edge-diagnostics) -->
+      <!-- ============================================================ -->
+      <div id="view-edge-diagnostics" class="spa-view p-4 sm:p-6 lg:p-8 max-w-lg mx-auto w-full">
+        <div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-[0_1px_8px_rgba(0,0,0,0.06)] border border-outline-variant/30 flex flex-col w-full">
+          <!-- Subtle ambient top status banner / Breadcrumb -->
+          <div class="flex flex-wrap items-center justify-between gap-2 px-space-sm py-space-xs mb-space-md bg-surface-container rounded-lg">
+            <div class="flex items-center gap-space-xs font-label-caps text-label-caps text-on-surface-variant">
+              <span class="inline-flex items-center justify-center w-2 h-2 rounded-full bg-error animate-ping"></span>
+              <span class="font-bold text-on-surface">PALMCARE EDGE DIAGNOSTICS</span>
+              <span class="text-outline">/</span>
+              <span class="text-secondary">MASTER HUB DXB-01</span>
+              <span class="text-outline">&gt;</span>
+              <span class="text-tertiary-container font-semibold">SATELLITE PROBE 0x02</span>
+            </div>
+            <div class="flex items-center gap-1 font-label-caps text-label-caps text-outline bg-surface-container-lowest px-2 py-0.5 rounded shadow-sm">
+              <span class="material-symbols-outlined text-[13px] text-error">sensors_off</span>
+              <span>NODE_TIMEOUT</span>
+            </div>
+          </div>
+
+          <!-- Primary Visual Incident Node with Circuit Trace & Signal Loss -->
+          <div class="relative flex flex-col items-center justify-center p-space-md mb-space-md bg-surface-container-low rounded-xl overflow-hidden shadow-sm">
+            <!-- Atmospheric vector micro-grid -->
+            <div class="absolute inset-0 opacity-15 pointer-events-none">
+              <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <pattern height="20" id="diag-grid" patternunits="userSpaceOnUse" width="20">
+                    <path class="text-outline" d="M 20 0 L 0 0 0 20" fill="none" stroke="currentColor" stroke-width="0.5"></path>
+                  </pattern>
+                </defs>
+                <rect fill="url(#diag-grid)" height="100%" width="100%"></rect>
+              </svg>
+            </div>
+
+            <!-- Centered Brand Asset & Alert Beacon Assembly -->
+            <div class="relative z-10 flex items-center justify-center mb-space-sm">
+              <div class="relative flex items-center justify-center w-24 h-24 rounded-full bg-surface-container-lowest shadow-md p-1">
+                <img alt="PalmCare Cybernetic Date Logo" class="w-20 h-20 object-contain rounded-full" src="https://lh3.googleusercontent.com/aida/AEtjO1WUGSRB9xLKFETEuc41IjFm9sXkRQwX8s9VWZcAb6_QysS4NwWB9cSJbheKuq5KRBS_qFKLZEyRNIMlUanlf2pLuJHFYzeqbEn-rpqQLIdVgmBmlXowUP0ZOzwEuVmOlX36pgGDHpdY2BjQxfP2CyJwmH__Yol8SLSxKnECmwr7hJecbpfwqKHp9u6xxtLDIj7-S4GuzYuuwBGzhXV549SmSZVNVyzqWTmAiOhJMWqA_MOTtNBdAeEfWEs"/>
+                <div class="absolute -bottom-1 -right-1 flex items-center justify-center w-7 h-7 rounded-full bg-error-container text-on-error-container shadow">
+                  <span class="material-symbols-outlined text-[16px]">signal_cellular_connected_no_internet_4_bar</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Technical RS485 Differential Bus Cable Illustration -->
+            <div class="relative z-10 w-full max-w-sm flex flex-col items-center">
+              <div class="w-full flex items-center justify-between text-body-sm font-label-caps text-outline mb-1">
+                <span>HUB DXB-01 [A+/B-]</span>
+                <span class="text-error font-semibold flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[12px]">link_off</span> NO MODBUS ECHO: 0x02
+                </span>
+                <span>SOIL PROBE #2</span>
+              </div>
+              <svg class="w-full h-10 overflow-visible" fill="none" viewbox="0 0 320 40" xmlns="http://www.w3.org/2000/svg">
+                <!-- Solid Line from Master Hub -->
+                <path d="M 10 20 L 130 20" stroke="#2D6A4F" stroke-linecap="round" stroke-width="2.5"></path>
+                <!-- Rupture Gap / Severed Differential Spark -->
+                <path d="M 130 20 L 140 14" stroke="#DC2626" stroke-linecap="round" stroke-width="2"></path>
+                <path d="M 130 20 L 138 26" stroke="#914D00" stroke-linecap="round" stroke-width="2"></path>
+                <circle cx="130" cy="20" fill="#DC2626" r="3"></circle>
+                <!-- Lightning glitch effect -->
+                <path class="animate-spark" d="M 148 10 L 158 20 L 152 22 L 165 32" stroke="#BA1A1A" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                <!-- Dead/Unresponsive Target Segment (Dashed) -->
+                <path d="M 180 20 L 310 20" stroke="#707973" stroke-dasharray="4 4" stroke-linecap="round" stroke-width="2"></path>
+                <circle cx="310" cy="20" fill="#707973" r="3"></circle>
+              </svg>
+              <div class="flex items-center gap-1 font-label-caps text-label-caps text-tertiary-container mt-1">
+                <span class="material-symbols-outlined text-[12px]">warning</span>
+                <span>LINE VOLTAGE DROP DETECTED ON DIFFERENTIAL PAIR</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Primary Error Statement & Hierarchy -->
+          <div class="flex flex-col items-start gap-1 mb-space-md">
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-error-container text-on-error-container font-label-caps text-label-caps uppercase tracking-wider font-semibold">
+              <span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span>
+              ERROR 503: TELEMETRY LINK UNREACHABLE
+            </div>
+            <h1 class="font-headline-lg text-headline-lg text-on-surface mt-1 font-bold">
+              Satellite Soil Probe Disconnected or Desert Thermal Halting
+            </h1>
+            <p class="font-body-md text-body-md text-on-surface-variant">
+              Slave telemetry device at <span class="font-semibold text-on-surface font-telemetry-md">Tree-02 (Barhi cultivar)</span> failed to respond across RS485 Modbus RTU differential bus after repetitive polling retries.
+            </p>
+          </div>
+
+          <!-- Monospaced Terminal Diagnostic Console -->
+          <div class="flex flex-col bg-surface-container-highest rounded-lg p-space-sm mb-space-lg shadow-inner">
+            <div class="flex items-center justify-between pb-1 mb-2 border-b-0">
+              <div class="flex items-center gap-1 font-label-caps text-label-caps text-outline">
+                <span class="material-symbols-outlined text-[14px]">terminal</span>
+                <span>SYS_DIAG // HARDWARE FAULT CONSOLE</span>
+              </div>
+              <span class="font-label-caps text-label-caps text-primary px-1.5 py-0.2 bg-primary-fixed rounded">RTC: 14:02:19.402 UTC</span>
+            </div>
+            <div class="flex flex-col gap-1 font-body-sm text-body-sm text-on-surface-variant font-telemetry-md">
+              <div class="flex items-start gap-2">
+                <span class="text-outline">&gt;</span>
+                <span>Target: <span class="text-on-surface font-semibold">Satellite Probe 0x02</span> [Sector C - Barhi Date Palm]</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-outline">&gt;</span>
+                <span>Bus: <span class="text-error font-medium">RS485 Differential Pair (A+/B-)</span> — 0 bytes returned (Timeout 1,500ms x 3)</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-outline">&gt;</span>
+                <span>Master Hub Status: <span class="text-secondary font-medium">RPi 4 &amp; ESP32 Active</span> | Hydraulic Line: <span class="text-secondary font-medium val-pressure">2.1 Bar</span> | Bus VCC: <span class="text-secondary font-medium">12.6V</span></span>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-outline">&gt;</span>
+                <span>Fail-Safe Mode: <span class="text-primary font-medium">Edge 30-Day SQLite Ring Buffer</span> retaining local state</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-outline">&gt;</span>
+                <span>Hydraulic Status: <span class="text-tertiary font-semibold uppercase">Interlock Valve V-02 Safe-Closed</span> (Prevents Runaway Over-Irrigation)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actionable Recovery Section (Tailored for Academic Panel Defense) -->
+          <div class="flex flex-col gap-space-sm mb-space-lg">
+            <!-- Panel Defense Safeguard Button -->
+            <button class="relative flex items-center justify-between w-full px-space-md py-space-sm bg-primary hover:bg-primary-container text-on-primary rounded-lg transition-all shadow-md group" id="btn-simulator-fallback" type="button">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-[20px] text-primary-fixed animate-pulse">model_training</span>
+                <div class="flex flex-col text-left">
+                  <span class="font-telemetry-md text-telemetry-md font-semibold tracking-wide">ACTIVATE SIMULATOR_DEMO FALLBACK</span>
+                  <span class="font-body-sm text-body-sm text-on-primary/80">Inject realistic Barhi soil telemetry for seamless academic review</span>
+                </div>
+              </div>
+              <span class="material-symbols-outlined text-[18px] group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+            </button>
+
+            <!-- Secondary Hardware Level Modbus Ping -->
+            <button class="flex items-center justify-center gap-2 w-full px-space-md py-space-sm bg-surface-container-lowest hover:bg-surface-container-low text-on-surface font-telemetry-md text-telemetry-md rounded-lg shadow-sm transition-all" id="btn-modbus-ping" type="button">
+              <span class="material-symbols-outlined text-[18px] text-secondary">sync</span>
+              <span>SEND MODBUS PING TO SLAVE 0x02 VIA ESP32</span>
+            </button>
+
+            <!-- Tertiary Navigation Anchor -->
+            <div class="flex justify-center mt-1">
+              <a class="flex items-center gap-1 font-telemetry-md text-body-sm text-secondary hover:text-primary transition-colors underline-offset-4 hover:underline" data-path="dashboard-overview" href="#dashboard-overview">
+                <span class="material-symbols-outlined text-[14px]">arrow_back</span>
+                <span>Return to Central Master Hub Dashboard</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Bottom Watchdog Bar & Diagnostic Package Extractor -->
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-space-sm bg-surface-container-low px-space-sm py-space-xs rounded-lg">
+            <div class="flex items-center gap-1.5 font-label-caps text-label-caps text-on-surface-variant">
+              <span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+              <span>TPL5110 HARDWARE TIMER: <strong class="text-on-surface">OK</strong> (Heartbeat 60s)</span>
+            </div>
+            <button class="btn-download-diag flex items-center gap-1 px-2 py-1 bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-caps text-label-caps rounded shadow-sm transition-colors" type="button">
+              <span class="material-symbols-outlined text-[14px] text-outline">download</span>
+              <span>DIAGNOSTIC LOG (.JSON)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- VIEW 8: AUTHENTICATION / LOGIN VIEW (#login) -->
+      <!-- ============================================================ -->
+      <div id="view-login" class="spa-view p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 min-h-[680px] rounded-2xl overflow-hidden shadow-2xl border border-outline-variant/30 bg-surface-container-lowest">
+          <!-- Left Hero Branding Panel -->
+          <div class="lg:col-span-5 relative bg-primary flex flex-col justify-between p-space-lg text-on-primary overflow-hidden">
+            <!-- Ambient decorative gradient circles -->
+            <div class="absolute -top-24 -left-24 w-80 h-80 rounded-full bg-primary-fixed-dim/10 blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-20 -right-20 w-72 h-72 rounded-full bg-secondary-fixed/15 blur-2xl pointer-events-none"></div>
+
+            <!-- Topographic grove contours pattern (inline SVG overlay) -->
+            <svg class="absolute inset-0 w-full h-full opacity-10 pointer-events-none" preserveaspectratio="none" viewbox="0 0 400 600" xmlns="http://www.w3.org/2000/svg">
+              <path d="M-50,120 Q80,90 200,160 T450,130" fill="none" stroke="#b1f0ce" stroke-width="1.2"></path>
+              <path d="M-30,220 Q120,180 240,270 T480,210" fill="none" stroke="#b1f0ce" stroke-width="1.2"></path>
+              <path d="M-60,340 Q70,300 210,380 T460,330" fill="none" stroke="#b1f0ce" stroke-width="1.2"></path>
+              <path d="M-40,460 Q130,420 230,510 T490,440" fill="none" stroke="#b1f0ce" stroke-width="1.2"></path>
+              <path d="M-20,540 Q90,520 260,570 T470,530" fill="none" stroke="#b1f0ce" stroke-width="1.2"></path>
+            </svg>
+
+            <!-- Top Section: Academic Badge & Header Group -->
+            <div class="relative z-10 flex flex-col items-start gap-space-sm">
+              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-lowest/15 backdrop-blur text-primary-fixed font-label-caps text-label-caps uppercase tracking-wider shadow-sm">
+                <span class="w-2 h-2 rounded-full bg-primary-fixed animate-ping"></span>
+                CSIT 321 Capstone — Group 3
+              </div>
+              <div class="mt-space-md flex flex-col items-start">
+                <div class="relative mb-space-sm group">
+                  <div class="absolute inset-0 rounded-2xl bg-primary-fixed-dim/20 blur-md scale-95 group-hover:scale-105 transition-transform duration-500"></div>
+                  <img alt="PalmCare Cybernetic Date Logo" class="relative w-24 h-24 object-contain filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)] rounded-full" src="https://lh3.googleusercontent.com/aida/AEtjO1WUGSRB9xLKFETEuc41IjFm9sXkRQwX8s9VWZcAb6_QysS4NwWB9cSJbheKuq5KRBS_qFKLZEyRNIMlUanlf2pLuJHFYzeqbEn-rpqQLIdVgmBmlXowUP0ZOzwEuVmOlX36pgGDHpdY2BjQxfP2CyJwmH__Yol8SLSxKnECmwr7hJecbpfwqKHp9u6xxtLDIj7-S4GuzYuuwBGzhXV549SmSZVNVyzqWTmAiOhJMWqA_MOTtNBdAeEfWEs"/>
+                </div>
+                <h1 class="font-display-lg text-display-lg tracking-tight text-surface-container-lowest font-bold">
+                  PalmCare
+                </h1>
+                <p class="font-body-md text-body-md text-primary-fixed-dim mt-1 max-w-xs font-medium">
+                  Smart Date Palm Health &amp; Precision Intervention
+                </p>
+              </div>
+            </div>
+
+            <!-- Mid Context: Agronomic Pillars -->
+            <div class="relative z-10 hidden sm:flex flex-col gap-2.5 my-space-md">
+              <div class="flex items-center gap-2 text-primary-fixed text-body-sm font-body-sm">
+                <span class="material-symbols-outlined text-sm">sensors</span>
+                <span>Acoustic RPW Larval Micro-Vibration Triangulation</span>
+              </div>
+              <div class="flex items-center gap-2 text-primary-fixed text-body-sm font-body-sm">
+                <span class="material-symbols-outlined text-sm">water_drop</span>
+                <span>Hyper-Arid Precision Sub-Canopy Fertigation</span>
+              </div>
+              <div class="flex items-center gap-2 text-primary-fixed text-body-sm font-body-sm">
+                <span class="material-symbols-outlined text-sm">shield</span>
+                <span>Automated Closed-Loop Actuator Safety Governance</span>
+              </div>
+            </div>
+
+            <!-- Bottom Edge Telemetry Ticker -->
+            <div class="relative z-10 p-3 rounded-lg bg-on-primary-fixed/40 backdrop-blur-md shadow-inner">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="font-label-caps text-label-caps text-primary-fixed flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-primary-fixed-dim animate-pulse"></span>
+                  LIVE EDGE TELEMETRY
+                </span>
+                <span class="font-telemetry-md text-body-sm text-secondary-fixed">99.98% UPTIME</span>
+              </div>
+              <div class="font-telemetry-md text-body-sm text-surface-bright flex flex-wrap items-center gap-x-3 gap-y-1">
+                <span class="flex items-center gap-1">
+                  <span class="text-secondary-fixed">●</span> Hub DXB-01: Online
+                </span>
+                <span class="opacity-40">|</span>
+                <span class="flex items-center gap-1">
+                  <span class="material-symbols-outlined text-xs text-primary-fixed-dim">satellite_alt</span>
+                  3 Satellite Probes
+                </span>
+                <span class="opacity-40">|</span>
+                <span class="flex items-center gap-1">
+                  <span class="material-symbols-outlined text-xs text-tertiary-fixed">solar_power</span>
+                  Solar: 12.6V
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Authentication Form Panel -->
+          <div class="lg:col-span-7 bg-surface p-space-lg flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between">
+                <div>
+                  <h2 class="font-headline-xl text-headline-xl font-bold text-on-surface">Welcome Back</h2>
+                  <p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+                    Authenticate to access Master Hub telemetry and intervention controls.
+                  </p>
+                </div>
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container">
+                  <span class="material-symbols-outlined">lock</span>
+                </span>
+              </div>
+
+              <!-- Quick Demo Sign-In Persona Selector -->
+              <div class="mt-space-md p-space-sm rounded-lg bg-surface-container-low shadow-sm">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="font-label-caps text-label-caps text-on-surface-variant uppercase font-bold">
+                    Quick Demo Sign-In (Persona Presets)
+                  </span>
+                  <span class="font-body-sm text-body-sm text-secondary font-medium">Single-click populate</span>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5" id="persona-btn-group">
+                  <button class="persona-btn py-1.5 px-2 rounded font-telemetry-md text-body-sm font-semibold transition-all duration-150 bg-primary-container text-on-primary shadow-sm flex items-center justify-center gap-1" id="btn-supervisor" onclick="PalmCare.selectRole('supervisor')" type="button">
+                    <span class="material-symbols-outlined text-xs">engineering</span>
+                    Supervisor
+                  </button>
+                  <button class="persona-btn py-1.5 px-2 rounded font-telemetry-md text-body-sm font-semibold transition-all duration-150 bg-surface-container text-on-surface hover:bg-surface-container-high flex items-center justify-center gap-1" id="btn-caretaker" onclick="PalmCare.selectRole('caretaker')" type="button">
+                    <span class="material-symbols-outlined text-xs">agriculture</span>
+                    Caretaker
+                  </button>
+                  <button class="persona-btn py-1.5 px-2 rounded font-telemetry-md text-body-sm font-semibold transition-all duration-150 bg-surface-container text-on-surface hover:bg-surface-container-high flex items-center justify-center gap-1" id="btn-owner" onclick="PalmCare.selectRole('owner')" type="button">
+                    <span class="material-symbols-outlined text-xs">query_stats</span>
+                    Owner
+                  </button>
+                  <button class="persona-btn py-1.5 px-2 rounded font-telemetry-md text-body-sm font-semibold transition-all duration-150 bg-surface-container text-on-surface hover:bg-surface-container-high flex items-center justify-center gap-1" id="btn-admin" onclick="PalmCare.selectRole('admin')" type="button">
+                    <span class="material-symbols-outlined text-xs">terminal</span>
+                    Admin
+                  </button>
+                </div>
+                <!-- Dynamic Role Description Pill -->
+                <div class="mt-2.5 p-2 rounded bg-surface-container-lowest text-secondary text-body-sm font-body-sm flex items-start gap-2 shadow-xs" id="role-info-pill">
+                  <span class="material-symbols-outlined text-sm text-primary shrink-0 mt-0.5">verified_user</span>
+                  <span id="role-desc-text">
+                    <strong class="text-on-surface">Active Role: Agricultural Supervisor</strong> — Full sensor telemetry access, solenoid actuator arming, OpenCV model tuning.
+                  </span>
+                </div>
+              </div>
+
+              <!-- Credentials Form -->
+              <form class="mt-space-md space-y-space-sm" onsubmit="event.preventDefault(); PalmCare.navigate('dashboard-overview'); PalmCare.showToast('Authentication Verified', 'Session active on Master Hub DXB-01 via MQTT TLS.', 'login');">
+                <!-- Email Input -->
+                <div>
+                  <label class="block font-label-caps text-label-caps text-on-surface-variant uppercase mb-1" for="user-email">
+                    Work Email Address
+                  </label>
+                  <div class="relative flex items-center">
+                    <span class="material-symbols-outlined absolute left-3 text-outline text-lg pointer-events-none">
+                      alternate_email
+                    </span>
+                    <input class="w-full h-10 pl-10 pr-3 rounded bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-xs focus:outline-none focus:ring-2 focus:ring-primary border border-outline-variant/30" id="user-email" placeholder="operator@palmcare.ae" required="" type="email" value="fatima.agronomist@palmcare.ae"/>
+                  </div>
+                </div>
+
+                <!-- Password Field with Show/Hide -->
+                <div>
+                  <div class="flex items-center justify-between mb-1">
+                    <label class="font-label-caps text-label-caps text-on-surface-variant uppercase" for="user-password">
+                      Password
+                    </label>
+                    <a class="font-body-sm text-body-sm text-primary hover:underline font-medium" href="#">
+                      Forgot password?
+                    </a>
+                  </div>
+                  <div class="relative flex items-center">
+                    <span class="material-symbols-outlined absolute left-3 text-outline text-lg pointer-events-none">
+                      key
+                    </span>
+                    <input class="w-full h-10 pl-10 pr-10 rounded bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-xs focus:outline-none focus:ring-2 focus:ring-primary tracking-wider border border-outline-variant/30" id="user-password" required="" type="password" value="••••••••••••••••"/>
+                    <button aria-label="Toggle password visibility" class="absolute right-3 text-outline hover:text-on-surface p-1 focus:outline-none" onclick="const p = document.getElementById('user-password'); p.type = p.type === 'password' ? 'text' : 'password';" type="button">
+                      <span class="material-symbols-outlined text-lg">visibility</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Sector Selector -->
+                <div>
+                  <label class="block font-label-caps text-label-caps text-on-surface-variant uppercase mb-1" for="farm-sector">
+                    Target Plantation Sector
+                  </label>
+                  <div class="relative flex items-center">
+                    <span class="material-symbols-outlined absolute left-3 text-outline text-lg pointer-events-none">
+                      pin_drop
+                    </span>
+                    <select class="w-full h-10 pl-10 pr-8 rounded bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-xs appearance-none focus:outline-none focus:ring-2 focus:ring-primary border border-outline-variant/30" id="farm-sector">
+                      <option selected="" value="sec-4">Sector 4 — Al Ain Date Grove (Master Hub DXB-01)</option>
+                      <option value="sec-1">Sector 1 — Liwa Organic Nursery (Hub LW-09)</option>
+                      <option value="sec-2">Sector 2 — Sweihan High-Density Plot (Hub SW-04)</option>
+                      <option value="sec-exp">Lab Sector 0 — Acoustic Weevil Test Enclosure</option>
+                    </select>
+                    <span class="material-symbols-outlined absolute right-3 text-outline text-lg pointer-events-none">
+                      unfold_more
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Remember Me Checkbox -->
+                <div class="flex items-center gap-2 pt-1">
+                  <input checked="" class="w-4 h-4 rounded text-primary focus:ring-primary accent-primary cursor-pointer" id="remember-terminal" type="checkbox"/>
+                  <label class="font-body-sm text-body-sm text-on-surface-variant cursor-pointer select-none" for="remember-terminal">
+                    Remember this engineering terminal (30 days hardware signature)
+                  </label>
+                </div>
+
+                <!-- Safety Compliance Box -->
+                <div class="p-2.5 rounded bg-surface-container-high text-on-surface-variant flex items-start gap-2 shadow-xs">
+                  <span class="material-symbols-outlined text-base text-tertiary shrink-0 mt-0.5">warning</span>
+                  <p class="font-body-sm text-body-sm leading-tight text-on-surface-variant">
+                    <strong class="text-tertiary">Safety Notice:</strong> Access to closed-loop fluid delivery relays and pneumatic acoustic injectors requires verified supervisor credentials under UAE Agritech Standard GS-402.
+                  </p>
+                </div>
+
+                <!-- Primary CTA Button -->
+                <div class="pt-2">
+                  <button class="w-full py-2.5 px-4 rounded bg-primary text-on-primary font-telemetry-md text-telemetry-md font-medium tracking-wide shadow-md hover:bg-primary-container active:scale-[0.99] transition-all flex items-center justify-center gap-2" id="signin-btn" type="submit">
+                    <span class="material-symbols-outlined text-lg">login</span>
+                    <span id="signin-label">Sign In to PalmCare Cluster OS</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Footer Action & Terminal Link -->
+            <div class="mt-space-md pt-space-sm flex flex-col items-center gap-1.5 text-center">
+              <a class="inline-flex items-center gap-1.5 font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors cursor-pointer" data-path="edge-diagnostics" href="#edge-diagnostics">
+                <span class="material-symbols-outlined text-sm">wifi_off</span>
+                <span>Access Offline Emergency Override Console (Local Edge Direct)</span>
+              </a>
+              <div class="flex items-center gap-2 font-label-caps text-label-caps text-outline">
+                <span>SECURED BY ED25519 HARDWARE TOKEN</span>
+                <span>•</span>
+                <span>FIRMWARE V4.2.1-PROD</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ============================================================ -->
+    <!-- 4. STICKY EMERGENCY SAFETY FOOTER (Fixed on Desktop & Mobile) -->
+    <!-- ============================================================ -->
+    <footer id="shell-footer" class="fixed bottom-0 left-0 lg:left-[260px] right-0 h-14 bg-inverse-surface text-inverse-on-surface z-40 flex items-center justify-between px-3 sm:px-gutter-desktop shadow-[0_-2px_10px_rgba(0,0,0,0.12)] transition-all duration-200">
+      <div class="flex items-center gap-3 sm:gap-space-lg">
+        <div class="flex items-center gap-space-sm">
+          <span class="material-symbols-outlined text-error text-[20px] animate-pulse">verified_user</span>
+          <div class="leading-none">
+            <span class="font-label-caps text-label-caps text-surface-variant uppercase block">&lt;120ms Analog Pressure Interlock</span>
+            <span id="interlock-status-text" class="font-telemetry-md text-body-sm text-secondary-fixed font-semibold">ARMED &amp; ACTIVE</span>
+          </div>
+        </div>
+        <div class="h-6 w-[1px] bg-outline hidden sm:block"></div>
+        <div class="hidden sm:flex items-center gap-space-xs font-telemetry-md text-body-md">
+          <span class="text-surface-variant font-label-caps text-label-caps uppercase">Line Pressure:</span>
+          <span class="text-primary-fixed font-bold val-pressure">2.10 Bar</span>
+          <span class="text-surface-variant font-body-sm text-body-sm">[±0.05 Bar]</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-space-md">
+        <div class="hidden md:flex items-center gap-space-xs font-label-caps text-label-caps text-surface-variant">
+          <span class="w-2 h-2 rounded-full bg-secondary-fixed"></span>
+          <span>PUMP VFD LOOP: PASSIVE FAIL-SAFE ACTIVE</span>
+        </div>
+        <button class="btn-estop flex items-center gap-space-xs px-3 sm:px-space-md py-2 bg-error text-on-error hover:bg-on-error-container active:scale-95 rounded font-label-caps text-body-sm font-bold uppercase tracking-wider transition-all shadow-[0_0_12px_rgba(186,26,26,0.45)]" type="button">
+          <span class="material-symbols-outlined text-[18px]">dangerous</span>
+          <span>EMERGENCY STOP (ALL PUMPS)</span>
+        </button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 5. INTERACTIVE MODALS & OVERLAYS -->
+  <!-- ============================================================ -->
+
+  <!-- Precision Fluid Dosing Modal -->
+  <div id="dosing-modal" class="fixed inset-0 z-50 bg-inverse-surface/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-surface-container-lowest rounded-2xl max-w-xl w-full p-6 shadow-2xl space-y-6 relative overflow-hidden">
+      <!-- Modal Header -->
+      <div class="flex items-start justify-between pb-2 border-b border-surface-container">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2 font-label-caps text-label-caps text-error uppercase font-bold">
+            <span class="material-symbols-outlined text-[18px]">emergency</span>
+            <span>Target Override Intervention</span>
+          </div>
+          <h3 class="font-headline-lg text-headline-lg text-on-surface font-bold">Trigger Precision Fluid Dosing</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant">
+            Direct pressurized fertigation manifold dispatch to <strong class="dosing-target-tree text-on-surface">Tree-02 (Barhi)</strong>.
+          </p>
+        </div>
+        <button class="btn-close-dosing p-1 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container" type="button">
+          <span class="material-symbols-outlined text-[24px]">close</span>
+        </button>
+      </div>
+
+      <!-- Prescribed Dosage Selection Matrix -->
+      <div class="p-4 rounded-xl bg-surface-container-low space-y-4">
+        <div class="flex items-center justify-between">
+          <span class="font-label-caps text-label-caps text-outline uppercase font-semibold">Recommended Prescription</span>
+          <span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-caps text-label-caps font-bold">OPTIMIZED FORMULA</span>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="p-3 rounded-lg bg-surface-container-lowest">
+            <span class="font-label-caps text-label-caps text-outline block">TARGET OUTPUT</span>
+            <span class="font-telemetry-lg text-telemetry-lg text-primary font-bold calc-volume-val">12.5 Liters</span>
+          </div>
+          <div class="p-3 rounded-lg bg-surface-container-lowest">
+            <span class="font-label-caps text-label-caps text-outline block">LINE PRESSURE</span>
+            <span class="font-telemetry-lg text-telemetry-lg text-on-surface font-bold val-pressure">2.10 Bar</span>
+          </div>
+        </div>
+
+        <!-- Slider -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center">
+            <label class="font-label-caps text-label-caps text-outline uppercase block font-semibold">Valve Pulse Duration</label>
+            <span class="font-telemetry-lg text-headline-sm font-bold text-primary timer-display-val">25sec</span>
+          </div>
+          <input id="modal-duration-slider" class="w-full h-2 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-primary dosing-duration-slider" max="60" min="5" step="1" type="range" value="25"/>
+          <div class="flex justify-between font-label-caps text-label-caps text-outline px-0.5">
+            <span>05s (MIN)</span>
+            <span>25s (NOMINAL)</span>
+            <span class="text-error font-semibold">60s (HARD CAP)</span>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label class="font-label-caps text-label-caps text-outline uppercase block font-semibold">Nutrient Formulation Conduit</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button class="fluid-card p-3 rounded-lg bg-secondary-container/30 ring-2 ring-primary text-left text-body-sm font-bold text-on-surface flex items-center justify-between btn-select-path" data-path="path-a" type="button">
+              <span>Path A: Clean RO Water</span>
+              <span class="fluid-check-badge material-symbols-outlined text-primary text-[18px]">check_circle</span>
+            </button>
+            <button class="fluid-card p-3 rounded-lg bg-surface-container text-left text-body-sm font-bold text-on-surface flex items-center justify-between btn-select-path" data-path="path-b" type="button">
+              <span>Path B: Chelate NPK</span>
+              <span class="fluid-check-badge material-symbols-outlined text-transparent text-[18px]">check_circle</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Safety Interlock Confirmation Guard -->
+      <div class="p-3 rounded-lg bg-error-container/30 flex items-start gap-3">
+        <span class="material-symbols-outlined text-error text-[20px] mt-0.5">verified_user</span>
+        <div class="text-body-sm font-telemetry-md">
+          <span class="text-error font-bold uppercase block">&lt;120ms Analog Pressure Interlock Armed</span>
+          <span class="text-on-surface-variant">The VFD pump loop will automatically disengage if backpressure exceeds 2.45 Bar.</span>
+        </div>
+      </div>
+
+      <label class="flex items-start gap-space-sm cursor-pointer select-none group">
+        <input class="mt-1 w-4 h-4 rounded text-primary focus:ring-0 focus:ring-offset-0 bg-surface-container border-outline-variant cursor-pointer accent-primary dosing-auth-checkbox" type="checkbox"/>
+        <span class="font-body-sm text-body-sm text-on-surface leading-tight">
+          Authorize pressurized manifold dispatch under <strong>UAE GS-402 Agritech Safety Directives</strong>.
+        </span>
+      </label>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center justify-end gap-3 pt-2">
+        <button class="btn-close-dosing px-4 py-2.5 rounded-lg bg-surface-container text-on-surface hover:bg-surface-variant font-body-md text-body-md" type="button">
+          Cancel Override
+        </button>
+        <button class="btn-execute-dosing inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-outline text-surface-variant font-body-md text-body-md font-bold shadow-md transition-all cursor-not-allowed opacity-60" disabled="" type="button">
+          <span class="material-symbols-outlined text-[18px]">bolt</span>
+          <span>Execute Dosing Sequence</span>
+        </button>
+      </div>
+
+      <!-- Execution Feedback Overlay -->
+      <div id="execution-overlay" class="absolute inset-0 bg-surface-container-lowest/95 backdrop-blur-sm z-50 flex flex-col items-center justify-center p-space-xl text-center hidden">
+        <div class="w-16 h-16 rounded-full bg-secondary-container text-primary flex items-center justify-center mb-space-md animate-bounce">
+          <span class="material-symbols-outlined text-[32px]">check_circle</span>
+        </div>
+        <h3 class="font-headline-lg text-headline-lg text-on-surface font-bold">Relay Pulse Dispatched</h3>
+        <p id="execution-summary" class="font-body-md text-body-md text-on-surface-variant max-w-md mt-space-xs mb-space-lg">
+          Target Slave 0x02 opened for 25s. Subterranean delivery in progress.
+        </p>
+        <div class="w-full max-w-xs bg-surface-container h-2 rounded-full overflow-hidden mb-space-lg">
+          <div id="progress-bar-dosing" class="bg-primary h-full w-0 transition-all duration-300"></div>
+        </div>
+        <button class="btn-close-dosing px-space-lg py-2.5 bg-primary text-on-primary rounded font-label-caps text-body-sm font-bold uppercase tracking-wider" type="button">
+          Return to Dashboard
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Emergency Stop Modal -->
+  <div id="emergency-modal" class="fixed inset-0 z-50 bg-inverse-surface/75 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-surface-container-lowest rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border-2 border-error text-center">
+      <div class="w-16 h-16 rounded-full bg-error-container text-error mx-auto flex items-center justify-center animate-pulse">
+        <span class="material-symbols-outlined text-[36px]">dangerous</span>
+      </div>
+      <h3 class="font-headline-lg text-headline-lg text-on-surface font-bold">Emergency Stop Governance</h3>
+      <p class="font-body-md text-body-md text-on-surface-variant">
+        This action triggers an instantaneous electrical trip of all VFD pump relays, drops line pressure to 0.0 Bar, and locks pneumatic interlocks across all grove sectors.
+      </p>
+      <div class="flex items-center gap-3 pt-2">
+        <button class="flex-1 py-2.5 bg-surface-container text-on-surface rounded-lg font-label-caps text-body-sm uppercase font-bold" onclick="PalmCare.closeEmergencyModal()" type="button">
+          Cancel
+        </button>
+        <button class="flex-1 py-2.5 bg-error text-on-error rounded-lg font-label-caps text-body-sm uppercase font-bold shadow-md hover:bg-error/90" onclick="PalmCare.confirmEmergencyStop()" type="button">
+          Confirm E-Stop
+        </button>
+      </div>
+      <div class="pt-2">
+        <button class="text-primary hover:underline font-label-caps text-label-caps uppercase font-bold" onclick="PalmCare.resetEmergencyStop()" type="button">
+          System Recovery: Clear E-Stop &amp; Re-Arm Interlocks
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Capstone Dossier Modal -->
+  <div id="dossier-modal" class="fixed inset-0 z-50 bg-inverse-surface/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-surface-container-lowest rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-2 border-b border-surface-container">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-[24px]">description</span>
+          <h3 class="font-headline-lg text-headline-lg font-bold text-on-surface">Capstone Technical Dossier</h3>
+        </div>
+        <button class="p-1 rounded text-outline hover:text-on-surface" onclick="DigitalTwin.closeDossier()" type="button">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+      <div class="space-y-4 font-body-sm text-on-surface">
+        <div class="p-3 bg-surface-container rounded-lg">
+          <span class="font-label-caps text-label-caps text-primary uppercase block font-bold">PROJECT OVERVIEW</span>
+          <p class="text-body-md font-medium mt-1">PalmCare: Smart Date Palm Health &amp; Precision Intervention Precision Agritech OS</p>
+          <p class="text-on-surface-variant mt-1">CSIT 321 Capstone Project · Al Ain Commercial Date Plantation Cluster</p>
+        </div>
+        <div class="grid grid-cols-2 gap-3 font-telemetry-md">
+          <div class="p-2.5 bg-surface-container-low rounded">
+            <span class="text-outline block text-body-sm">WATER SAVINGS</span>
+            <span class="text-primary text-headline-sm font-bold">38.4% Efficiency Gain</span>
+          </div>
+          <div class="p-2.5 bg-surface-container-low rounded">
+            <span class="text-outline block text-body-sm">ANOMALY LATENCY</span>
+            <span class="text-on-surface text-headline-sm font-bold">&lt; 120ms Hardware Trip</span>
+          </div>
+        </div>
+        <p class="text-body-sm text-on-surface-variant leading-relaxed">
+          The PalmCare OS integrates edge AI phenotyping on a Google Coral TPU with sub-surface lithological soil sensors and closed-loop hydraulic fertigation manifolds to prevent permanent wilting and reverse frond chlorosis in hyper-arid date orchards.
+        </p>
+      </div>
+      <div class="flex justify-end gap-3 pt-2">
+        <button class="px-4 py-2 bg-surface-container rounded font-label-caps text-body-sm font-bold uppercase" onclick="DigitalTwin.closeDossier()" type="button">Close</button>
+        <button class="px-4 py-2 bg-primary text-on-primary rounded font-label-caps text-body-sm font-bold uppercase shadow-sm flex items-center gap-1.5" onclick="window.print()" type="button">
+          <span class="material-symbols-outlined text-[16px]">print</span>
+          <span>Print Defense Dossier</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Toast Notification Banner -->
+  <div id="global-toast" class="hidden fixed bottom-6 right-6 max-w-sm p-space-md rounded-xl bg-surface-container-lowest text-on-surface shadow-2xl flex items-center gap-3 transition-opacity duration-300 z-50 border border-outline-variant/30">
+    <span class="material-symbols-outlined text-primary text-2xl" id="toast-icon">check_circle</span>
+    <div>
+      <h4 class="font-headline-sm text-headline-sm text-on-surface font-bold" id="toast-title">Session Initialized</h4>
+      <p class="font-body-sm text-body-sm text-on-surface-variant" id="toast-desc">Connecting to Master Hub DXB-01 via MQTT TLS...</p>
+    </div>
+  </div>
+
+  <!-- Application Scripts -->
+  <script src="/static/js/app.js"></script>
+  <script src="/static/js/digital_twin.js"></script>
+  <script src="/static/js/canopy_vision.js"></script>
+  <script src="/static/js/dosing_controller.js"></script>
+  <script src="/static/js/diagnostics.js"></script>
+
+</body>
+</html>

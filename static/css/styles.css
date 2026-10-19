@@ -1,0 +1,93 @@
+/* PalmCare Precision Agritech OS - Custom Styles & Transitions */
+
+@layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+    overscroll-behavior: none;
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+/* Typography Helpers */
+.font-manrope {
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+.font-mono-code {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.04);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(112, 121, 115, 0.35);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(45, 106, 79, 0.6);
+}
+
+/* Subtle Glassmorphism */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.glass-panel-dark {
+  background: rgba(46, 49, 49, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Glitch & Spark Animation for RS485 Bus Fault */
+@keyframes spark-glitch {
+  0%, 100% { opacity: 0.2; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.15) rotate(4deg); }
+  75% { opacity: 0.6; transform: scale(1.05) rotate(-2deg); }
+}
+
+.animate-spark {
+  animation: spark-glitch 1.2s infinite ease-in-out;
+}
+
+/* Smooth Drawer Transition for Mobile Sidebar */
+.mobile-sidebar-drawer {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+/* View Switcher Visibility */
+.spa-view {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.spa-view.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Pulse Glows */
+.glow-primary {
+  box-shadow: 0 0 20px rgba(45, 106, 79, 0.35);
+}
+
+.glow-error {
+  box-shadow: 0 0 20px rgba(186, 26, 26, 0.45);
+}
+
+/* Interactive SVG Radar & Curves */
+.radar-polygon {
+  transition: all 0.5s ease-out;
+}
+
+/* Split View Draggable Handle */
+.split-handle {
+  touch-action: none;
+}
